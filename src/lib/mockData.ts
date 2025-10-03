@@ -25,6 +25,7 @@ export interface Production {
   description?: string;
   created_date: string;
   updated_date?: string;
+  members?: string[];
 }
 
 // Mock users
@@ -58,13 +59,22 @@ export const mockProductions: Production[] = [
     id: '1',
     name: 'Movie Production Alpha',
     description: 'Main movie production',
-    created_date: '2024-01-01T00:00:00Z'
+    created_date: '2024-01-01T00:00:00Z',
+    members: ['admin@example.com', 'editor@example.com']
   },
   {
     id: '2',
     name: 'TV Series Beta',
     description: 'Television series production',
-    created_date: '2024-01-15T00:00:00Z'
+    created_date: '2024-01-15T00:00:00Z',
+    members: ['admin@example.com']
+  },
+  {
+    id: '3',
+    name: 'Documentary Project',
+    description: 'Environmental documentary',
+    created_date: '2024-02-01T00:00:00Z',
+    members: ['viewer@example.com']
   }
 ];
 
