@@ -2,9 +2,17 @@
 
 ## Overview
 
-PaperworkPro is a Next.js-based web application designed for managing production files and documents. The system provides role-based access control for organizing files across different productions, with support for various document types including contracts, scripts, schedules, budgets, call sheets, release forms, permits, and invoices.
+PaperworkPro is a Next.js-based web application designed for managing production files and documents. The system provides role-based access control with visual lock/unlock indicators showing which productions users can access. Users can navigate into productions they have access to and switch between Edit Mode and Broadcast Mode for different workflows.
 
 The application targets production teams who need a centralized platform to store, organize, and access production-related documents with appropriate permission controls.
+
+## Recent Changes (October 2025)
+
+- **Dashboard Redesign**: Removed recent files section; dashboard now shows all productions with lock/unlock padlock icons
+- **Access Control**: Productions display open padlock (green) for accessible productions and locked padlock (red) for restricted ones
+- **Production Detail Pages**: New `/production/[id]` route with Edit Mode and Broadcast Mode navigation buttons
+- **Mode Pages**: Placeholder pages for Edit Mode and Broadcast Mode functionality
+- **Color Scheme**: Updated to use teal (#0d9488), amber (#f59e0b), dark red (#991b1b), and neon green (#10b981)
 
 ## User Preferences
 
@@ -37,10 +45,10 @@ Preferred communication style: Simple, everyday language.
 - URL search params for passing data between pages (e.g., production ID)
 
 **Design Patterns**:
-- Dark mode UI with custom color scheme (dark slate backgrounds, teal/green accents)
-- Role-based conditional rendering (admin, editor, viewer roles)
-- Edit mode toggle pattern for switching between view and edit states
-- Grid/List view toggle for different data display modes
+- Dark mode UI with custom color scheme: teal (#0d9488), amber (#f59e0b), dark red (#991b1b), neon green (#10b981)
+- Role-based access control with visual lock/unlock indicators
+- Production-centric navigation with Edit Mode and Broadcast Mode workflows
+- Admin users have access to all productions, other users only see productions they're members of
 
 ### Backend Architecture
 
@@ -63,10 +71,10 @@ Preferred communication style: Simple, everyday language.
 - Created date tracking
 
 *Production*:
-- Status tracking (pre_production, in_production, post_production, completed, archived)
-- Member association via email array
-- Optional cover images and custom colors
-- Start date tracking
+- Member-based access control via email array
+- Admins have access to all productions
+- Non-admin users only access productions where their email is in the members array
+- Visual indicators (lock/unlock icons) show access status
 
 *File*:
 - Production association via production_id
