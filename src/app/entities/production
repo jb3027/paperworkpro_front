@@ -1,0 +1,48 @@
+{
+    "name": "Production",
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string",
+        "description": "Production name"
+      },
+      "description": {
+        "type": "string",
+        "description": "Production description"
+      },
+      "status": {
+        "type": "string",
+        "enum": [
+          "pre_production",
+          "in_production",
+          "post_production",
+          "completed",
+          "archived"
+        ],
+        "default": "pre_production"
+      },
+      "start_date": {
+        "type": "string",
+        "format": "date"
+      },
+      "members": {
+        "type": "array",
+        "description": "User emails who have access",
+        "items": {
+          "type": "string"
+        }
+      },
+      "cover_image": {
+        "type": "string",
+        "description": "Production cover image URL"
+      },
+      "color": {
+        "type": "string",
+        "description": "Theme color for the production",
+        "default": "#065f46"
+      }
+    },
+    "required": [
+      "name"
+    ]
+  }

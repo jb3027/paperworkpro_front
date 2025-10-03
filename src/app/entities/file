@@ -1,0 +1,56 @@
+{
+  "name": "File",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "File name"
+    },
+    "production_id": {
+      "type": "string",
+      "description": "Associated production ID"
+    },
+    "file_url": {
+      "type": "string",
+      "description": "URL to the file"
+    },
+    "file_type": {
+      "type": "string",
+      "enum": [
+        "contract",
+        "script",
+        "schedule",
+        "budget",
+        "call_sheet",
+        "release_form",
+        "permit",
+        "invoice",
+        "other"
+      ],
+      "default": "other"
+    },
+    "category": {
+      "type": "string",
+      "description": "Custom category"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Additional notes"
+    },
+    "file_size": {
+      "type": "number",
+      "description": "File size in bytes"
+    },
+    "mime_type": {
+      "type": "string"
+    },
+    "version": {
+      "type": "number",
+      "default": 1
+    }
+  },
+  "required": [
+    "name",
+    "production_id"
+  ]
+}
