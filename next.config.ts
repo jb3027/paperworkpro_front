@@ -9,6 +9,10 @@ const nextConfig: NextConfig = {
     };
     return config;
   },
+  // Allow all hosts for Replit proxy compatibility
+  experimental: {
+    allowedOrigins: ['*'],
+  },
 };
 
 export default nextConfig;
