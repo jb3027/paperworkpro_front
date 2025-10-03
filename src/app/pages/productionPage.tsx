@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState, useEffect } from "react";
 import { Production } from "@/app/components/entities/Production";
 import { User } from "@/app/components/entities/User";
@@ -7,7 +9,7 @@ import { Button } from "@/app/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 
 import ProductionCard from "../components/productions/productionCard";
-import CreateProductionModal from "../components/productions/CreateProductionModal";
+import CreateProductionModal from "../components/productions/createProductionModal";
 
 export default function ProductionsPage() {
   const [productions, setProductions] = useState<Production[]>([]);
