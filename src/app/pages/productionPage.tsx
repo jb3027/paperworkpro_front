@@ -51,7 +51,7 @@ export default function ProductionsPage() {
   const canEdit = user?.role === 'admin' || user?.role === 'editor';
 
   return (
-    <div className="min-h-screen bg-[#0f172a] p-6 md:p-10">
+    <div className="min-h-screen bg-dark-green p-6 md:p-10">
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-6">
           <div>

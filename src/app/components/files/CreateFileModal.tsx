@@ -45,7 +45,7 @@ export default function CreateFileModal({ onClose, onSubmit }: CreateFileModalPr
               onChange={(e) => setFormData({...formData, name: e.target.value})}
               placeholder="Enter file name"
               required
-              className="bg-[#0f172a] border-gray-800 text-[#fafaf9]"
+              className="bg-dark-green border-gray-800 text-[#fafaf9]"
             />
           </div>
 
@@ -53,7 +53,7 @@ export default function CreateFileModal({ onClose, onSubmit }: CreateFileModalPr
             <div className="space-y-2">
               <Label htmlFor="file_type">File Type</Label>
               <Select value={formData.file_type} onValueChange={(value) => setFormData({...formData, file_type: value})}>
-                <SelectTrigger className="bg-[#0f172a] border-gray-800 text-[#fafaf9]">
+                <SelectTrigger className="bg-dark-green border-gray-800 text-[#fafaf9]">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent className="bg-[#1e293b] border-gray-800">
@@ -73,7 +73,7 @@ export default function CreateFileModal({ onClose, onSubmit }: CreateFileModalPr
                 value={formData.category}
                 onChange={(e) => setFormData({...formData, category: e.target.value})}
                 placeholder="Optional"
-                className="bg-[#0f172a] border-gray-800 text-[#fafaf9]"
+                className="bg-dark-green border-gray-800 text-[#fafaf9]"
               />
             </div>
           </div>
@@ -86,7 +86,7 @@ export default function CreateFileModal({ onClose, onSubmit }: CreateFileModalPr
               onChange={(e) => setFormData({...formData, notes: e.target.value})}
               placeholder="Add any notes about this file"
               rows={3}
-              className="bg-[#0f172a] border-gray-800 text-[#fafaf9]"
+              className="bg-dark-green border-gray-800 text-[#fafaf9]"
             />
           </div>
 

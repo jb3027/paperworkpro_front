@@ -87,7 +87,7 @@ export default function ProductionDetailPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-[#0f172a] flex items-center justify-center">
+      <div className="min-h-screen bg-dark-green flex items-center justify-center">
         <Loader2 className="w-8 h-8 animate-spin text-[#0d9488]" />
       </div>
     );
@@ -95,14 +95,14 @@ export default function ProductionDetailPage() {
 
   if (!production) {
     return (
-      <div className="min-h-screen bg-[#0f172a] flex items-center justify-center">
+      <div className="min-h-screen bg-dark-green flex items-center justify-center">
         <p className="text-gray-400">Production not found</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#0f172a] p-6 md:p-10">
+    <div className="min-h-screen bg-dark-green p-6 md:p-10">
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
           <Link href={createPageUrl("Productions")}>

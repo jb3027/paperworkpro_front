@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { UserService, ProductionService } from '@/lib/services';
 import { User, Production } from '@/lib/mockData';
-import { Lock, LockOpen } from 'lucide-react';
+import { Lock, LockOpen, ChevronDown } from 'lucide-react';
 import { Card } from '@/app/components/ui/card';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
@@ -12,10 +13,41 @@ export default function Dashboard() {
   const [user, setUser] = useState<User | null>(null);
   const [productions, setProductions] = useState<Production[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [dropdownPosition, setDropdownPosition] = useState({ top: 0, right: 0 });
+  const avatarButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     loadData();
   }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+      if (!target.closest('.user-dropdown') && !target.closest('.dropdown-menu-portal')) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    if (isDropdownOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isDropdownOpen]);
+
+  const handleAvatarClick = () => {
+    if (avatarButtonRef.current) {
+      const rect = avatarButtonRef.current.getBoundingClientRect();
+      setDropdownPosition({
+        top: rect.bottom + window.scrollY + 8,
+        right: window.innerWidth - rect.right - window.scrollX
+      });
+    }
+    setIsDropdownOpen(!isDropdownOpen);
+  };
 
   const loadData = async () => {
     try {
@@ -41,22 +73,45 @@ export default function Dashboard() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-[#0f172a] flex items-center justify-center">
+      <div className="min-h-screen bg-dark-green flex items-center justify-center">
         <div className="text-[#fafaf9] text-xl">Loading...</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#0f172a] p-6">
-      <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen bg-white">
+
+      <nav className="nav-toolbar">
+          <div className="toolbar-group left">
+            <span className="brand-text">PaperworkPRO</span>
+          </div>
+
+          <div className="toolbar-group right">
+            <div className="user-dropdown">
+              <span className="welcome-text">Welcome, {user?.full_name || 'User'}</span>
+              <button 
+                ref={avatarButtonRef}
+                className="user-avatar-button"
+                onClick={handleAvatarClick}
+              >
+                <div className="user-avatar">
+                  {user?.full_name ? user.full_name.charAt(0).toUpperCase() : 'U'}
+                </div>
+                <ChevronDown className={`chevron ${isDropdownOpen ? 'open' : ''}`} />
+              </button>
+            </div>
+          </div>
+      </nav>
+
+      <div className="max-w-7xl mx-auto pt-32">
         {/* Header */}
         <div className="mb-12">
-          <h1 className="text-4xl font-bold text-[#fafaf9] mb-2">
-            Welcome back, {user?.full_name || 'User'}!
-          </h1>
-          <p className="text-gray-400 text-lg">
+          <h1 className="text-4xl font-bold text-dark-green mb-2">
             Select a production to get started
+          </h1>
+          <p className="text-dark-green text-lg">
+            Choose from your available productions below
           </p>
         </div>
 
@@ -134,6 +189,29 @@ export default function Dashboard() {
           </div>
         )}
       </div>
+
+      {/* Portal Dropdown */}
+      {isDropdownOpen && typeof window !== 'undefined' && createPortal(
+        <div 
+          className="dropdown-menu-portal"
+          style={{
+            position: 'absolute',
+            top: dropdownPosition.top,
+            right: dropdownPosition.right,
+            zIndex: 10000
+          }}
+        >
+          <div className="dropdown-menu">
+            <Link href="/settings" className="dropdown-item">
+              Manage Account
+            </Link>
+            <button className="dropdown-item logout-item">
+              Logout
+            </button>
+          </div>
+        </div>,
+        document.body
+      )}
     </div>
   );
 }

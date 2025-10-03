@@ -109,7 +109,7 @@ export default function FileCard({ file, editMode, viewMode, onDelete }: FileCar
               <Button 
                 variant="ghost" 
                 size="icon" 
-                className="w-8 h-8 bg-[#0f172a]/80 backdrop-blur-sm text-gray-400 hover:text-[#fafaf9] hover:bg-[#0f172a]"
+                className="w-8 h-8 bg-dark-green/80 backdrop-blur-sm text-gray-400 hover:text-[#fafaf9] hover:bg-dark-green"
               >
                 <MoreVertical className="w-4 h-4" />
               </Button>

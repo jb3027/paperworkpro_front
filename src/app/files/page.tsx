@@ -118,14 +118,14 @@ export default function FilesPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-[#0f172a] flex items-center justify-center">
+      <div className="min-h-screen bg-dark-green flex items-center justify-center">
         <div className="text-[#fafaf9] text-xl">Loading...</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#0f172a] p-6">
+    <div className="min-h-screen bg-dark-green p-6">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
@@ -327,7 +327,7 @@ export default function FilesPage() {
                           <Button 
                             variant="ghost" 
                             size="icon" 
-                            className="w-8 h-8 bg-[#0f172a]/80 backdrop-blur-sm text-gray-400 hover:text-[#fafaf9] hover:bg-[#0f172a]"
+                            className="w-8 h-8 bg-dark-green/80 backdrop-blur-sm text-gray-400 hover:text-[#fafaf9] hover:bg-dark-green"
                           >
                             <MoreVertical className="w-4 h-4" />
                           </Button>

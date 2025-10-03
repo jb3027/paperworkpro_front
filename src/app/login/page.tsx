@@ -39,7 +39,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0f172a] flex items-center justify-center p-6">
+    <div className="min-h-screen bg-dark-green flex items-center justify-center p-6">
       <div className="w-full max-w-md">
         {/* Header */}
         <div className="text-center mb-8">
@@ -62,7 +62,7 @@ export default function LoginPage() {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your email"
                 required
-                className="bg-[#0f172a] border-gray-800 text-[#fafaf9]"
+                className="bg-dark-green border-gray-800 text-[#fafaf9]"
               />
             </div>
 
@@ -75,7 +75,7 @@ export default function LoginPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Enter your password"
                 required
-                className="bg-[#0f172a] border-gray-800 text-[#fafaf9]"
+                className="bg-dark-green border-gray-800 text-[#fafaf9]"
               />
             </div>
 
