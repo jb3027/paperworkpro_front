@@ -99,7 +99,7 @@ export class FileService {
     mockFiles.splice(index, 1);
   }
 
-  static async upload(file: File, productionId?: string): Promise<File> {
+  static async upload(file: globalThis.File, productionId?: string): Promise<File> {
     await new Promise(resolve => setTimeout(resolve, 1500));
     
     // Simulate file upload
