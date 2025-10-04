@@ -7,6 +7,8 @@ import { motion } from "framer-motion";
 import { Calendar, Users, ChevronRight } from "lucide-react";
 import { format } from "date-fns";
 import { Badge } from "@/app/components/ui/badge";
+import { Production } from "@/app/components/entities/Production";
+import { User } from "@/app/components/entities/User";
 
 const statusColors = {
   pre_production: "bg-[#f59e0b]/20 text-[#f59e0b] border-[#f59e0b]/30",
@@ -16,7 +18,12 @@ const statusColors = {
   archived: "bg-gray-700/20 text-gray-400 border-gray-700/30"
 };
 
-export default function ProductionCard({ production, user }) {
+interface ProductionCardProps {
+  production: Production;
+  user: User | null;
+}
+
+export default function ProductionCard({ production, user }: ProductionCardProps) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -25,7 +32,7 @@ export default function ProductionCard({ production, user }) {
       transition={{ duration: 0.3 }}
       whileHover={{ y: -4 }}
     >
-      <Link to={createPageUrl("ProductionDetail") + "?id=" + production.id}>
+      <Link href={`/production/${production.id}`}>
         <div className="group relative bg-[#1e293b] rounded-2xl overflow-hidden border border-gray-800 hover:border-[#0d9488] transition-all duration-300 shadow-lg hover:shadow-[#0d9488]/20">
           {production.cover_image ? (
             <div className="h-48 overflow-hidden">
@@ -49,8 +56,8 @@ export default function ProductionCard({ production, user }) {
           )}
 
           <div className="absolute top-4 right-4">
-            <Badge className={`${statusColors[production.status]} border font-medium`}>
-              {production.status.replace(/_/g, ' ')}
+            <Badge className={`${statusColors[production.status || 'archived']} border font-medium`}>
+              {production.status?.replace(/_/g, ' ') || 'Unknown'}
             </Badge>
           </div>
 

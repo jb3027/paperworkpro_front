@@ -4,10 +4,20 @@ import React, { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { UserService, ProductionService } from '@/lib/services';
 import { User, Production } from '@/lib/mockData';
-import { Lock, LockOpen, ChevronDown } from 'lucide-react';
+
+interface CreateProductionData {
+  name: string;
+  description?: string;
+  status?: 'pre_production' | 'in_production' | 'post_production' | 'completed' | 'archived';
+  start_date?: string;
+  color?: string;
+}
+import { Lock, LockOpen, ChevronDown, Plus } from 'lucide-react';
 import { Card } from '@/app/components/ui/card';
+import { Button } from '@/app/components/ui/button';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import CreateProductionModal from '@/app/components/productions/createProductionModal';
 
 export default function Dashboard() {
   const [user, setUser] = useState<User | null>(null);
@@ -15,6 +25,7 @@ export default function Dashboard() {
   const [isLoading, setIsLoading] = useState(true);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, right: 0 });
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const avatarButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
@@ -65,6 +76,20 @@ export default function Dashboard() {
     }
   };
 
+  const handleCreateProduction = async (formData: CreateProductionData) => {
+    try {
+      const newProduction = await ProductionService.create(formData);
+      setProductions(prev => [...prev, newProduction]);
+      setIsCreateModalOpen(false);
+    } catch (error) {
+      console.error('Error creating production:', error);
+    }
+  };
+
+  const handleCloseModal = () => {
+    setIsCreateModalOpen(false);
+  };
+
   const hasAccess = (production: Production) => {
     if (!user) return false;
     if (user.role === 'admin') return true;
@@ -108,11 +133,15 @@ export default function Dashboard() {
         {/* Header */}
         <div className="mb-12">
           <h1 className="text-4xl font-bold text-dark-green mb-2">
-            Select a production to get started
+            Your Productions
           </h1>
-          <p className="text-dark-green text-lg">
-            Choose from your available productions below
-          </p>
+          <Button 
+            onClick={() => setIsCreateModalOpen(true)}
+            className="bg-gradient-to-r from-[#065f46] to-[#0d9488] hover:from-[#064e3b] hover:to-[#0f766e] text-[#fafaf9] px-6 py-3 flex items-center gap-2 transition-all duration-200"
+          >
+            <Plus className="w-5 h-5" />
+            Create New Production
+          </Button>
         </div>
 
         {/* Productions Grid */}
@@ -168,7 +197,7 @@ export default function Dashboard() {
                     
                     <div className="flex items-center justify-between mt-6 pt-4 border-t border-gray-700">
                       <span className="text-gray-500 text-xs">
-                        Created {new Date(production.created_date).toLocaleDateString()}
+                        Created {production.created_date ? new Date(production.created_date).toLocaleDateString() : 'Unknown'}
                       </span>
                       <span className={`text-xs font-semibold ${
                         userHasAccess ? 'text-[#10b981]' : 'text-[#991b1b]'
@@ -211,6 +240,14 @@ export default function Dashboard() {
           </div>
         </div>,
         document.body
+      )}
+
+      {/* Create Production Modal */}
+      {isCreateModalOpen && (
+        <CreateProductionModal
+          onClose={handleCloseModal}
+          onSubmit={handleCreateProduction}
+        />
       )}
     </div>
   );

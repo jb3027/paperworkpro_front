@@ -67,7 +67,7 @@ export default function Settings() {
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen" style={{ backgroundColor: '#f5f5f5' }}>
       <nav className="nav-toolbar">
           <div className="toolbar-group left">
             <span className="brand-text">PaperworkPRO</span>
@@ -90,7 +90,19 @@ export default function Settings() {
           </div>
       </nav>
 
-      <div className="max-w-4xl mx-auto pt-32 px-6">
+      {/* Back to Dashboard Link - positioned below navbar */}
+      <div className="w-full px-6 py-4" style={{ marginTop: '100px' }}>
+        <div className="max-w-4xl mx-auto">
+          <Link 
+              href="/"
+              className="inline-flex items-center text-accent-green hover:text-accent-green-hover font-medium"
+          >
+              ← Back to Dashboard
+          </Link>
+        </div>
+      </div>
+            
+      <div className="max-w-4xl mx-auto px-6 mt-8">
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-dark-green mb-2">
@@ -143,7 +155,7 @@ export default function Settings() {
             </div>
           </Card>
 
-          {/* Security Settings */}
+          {/* Security Settings
           <Card className="bg-white border border-gray-200 p-6">
             <h2 className="text-xl font-semibold text-dark-green mb-4">Security</h2>
             <div className="space-y-4">
@@ -154,9 +166,9 @@ export default function Settings() {
                 Two-Factor Authentication
               </button>
             </div>
-          </Card>
+          </Card> */}
 
-          {/* Preferences */}
+          {/* Preferences
           <Card className="bg-white border border-gray-200 p-6">
             <h2 className="text-xl font-semibold text-dark-green mb-4">Preferences</h2>
             <div className="space-y-4">
@@ -173,17 +185,8 @@ export default function Settings() {
                 <input type="checkbox" className="rounded" />
               </div>
             </div>
-          </Card>
+          </Card> */}
 
-          {/* Back to Dashboard */}
-          <div className="pt-6">
-            <Link 
-              href="/"
-              className="inline-flex items-center text-accent-green hover:text-accent-green-hover font-medium"
-            >
-              ← Back to Dashboard
-            </Link>
-          </div>
         </div>
       </div>
 

@@ -51,7 +51,7 @@ export default function CreateFileModal({ onClose, onSubmit }: CreateFileModalPr
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="file_type">File Type</Label>
+              <Label>File Type</Label>
               <Select value={formData.file_type} onValueChange={(value) => setFormData({...formData, file_type: value})}>
                 <SelectTrigger className="bg-dark-green border-gray-800 text-[#fafaf9]">
                   <SelectValue />

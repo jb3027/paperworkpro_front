@@ -78,9 +78,20 @@ interface DropdownMenuItemProps {
 }
 
 export function DropdownMenuItem({ children, onClick, className = '' }: DropdownMenuItemProps) {
+  const context = useContext(DropdownMenuContext);
+  if (!context) throw new Error('DropdownMenuItem must be used within DropdownMenu');
+
+  const { setOpen } = context;
+
+  const handleClick = () => {
+    if (onClick) onClick();
+    setOpen(false);
+  };
+
   return (
     <button
-      onClick={onClick}
+      type="button"
+      onClick={handleClick}
       className={`block w-full px-4 py-2 text-sm text-left hover:bg-gray-100 dark:hover:bg-gray-700 ${className}`}
     >
       {children}
