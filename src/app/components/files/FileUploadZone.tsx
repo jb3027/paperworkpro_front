@@ -5,8 +5,10 @@ import { Card } from "../ui/card";
 import { Upload, Loader2, CheckCircle } from "lucide-react";
 import { Button } from "@/app/components/ui/button";
 
+import { FileData } from "@/app/components/entities/File";
+
 interface FileUploadZoneProps {
-  onFilesUploaded: (files: any[]) => void;
+  onFilesUploaded: (files: FileData[]) => void;
   productionId: string | null;
 }
 
@@ -27,9 +29,10 @@ export default function FileUploadZone({ onFilesUploaded, productionId }: FileUp
         uploadedFiles.push({
           name: file.name,
           file_url,
-          file_type: "other",
+          file_type: "other" as const,
           file_size: file.size,
-          mime_type: file.type
+          mime_type: file.type,
+          production_id: productionId || ""
         });
         setUploadedCount(prev => prev + 1);
       } catch (error) {

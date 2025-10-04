@@ -88,7 +88,7 @@ export default function ProductionDetailPage() {
             <Lock className="w-12 h-12 text-[#991b1b]" />
           </div>
           <h1 className="text-2xl font-bold text-[var(--black)] mb-2">Access Denied</h1>
-          <p className="text-gray-600 mb-6">You don't have permission to view this production</p>
+          <p className="text-gray-600 mb-6">You don&apos;t have permission to view this production</p>
           <Link href="/">
             <Button className="bg-[#0d9488] hover:bg-[#0d9488]/80 text-[#fafaf9]">
               Back to Dashboard

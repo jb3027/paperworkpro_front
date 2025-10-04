@@ -12,12 +12,16 @@ interface CreateProductionData {
   start_date?: string;
   color?: string;
 }
-import { Lock, LockOpen, ChevronDown, Plus } from 'lucide-react';
+import { Lock, LockOpen, ChevronDown, Plus, ArrowUpDown } from 'lucide-react';
 import { Card } from '@/app/components/ui/card';
 import { Button } from '@/app/components/ui/button';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import CreateProductionModal from '@/app/components/productions/createProductionModal';
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from '@/app/components/ui/dropdown-menu';
+
+type SortOption = 'date_created' | 'start_date' | 'name';
+type ProductionStatus = 'pre_production' | 'in_production' | 'post_production' | 'completed' | 'archived';
 
 export default function Dashboard() {
   const [user, setUser] = useState<User | null>(null);
@@ -26,6 +30,8 @@ export default function Dashboard() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, right: 0 });
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [sortBy, setSortBy] = useState<SortOption>('date_created');
+  const [selectedStatuses, setSelectedStatuses] = useState<Set<ProductionStatus | 'all'>>(new Set(['all']));
   const avatarButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
@@ -96,6 +102,64 @@ export default function Dashboard() {
     return production.members?.includes(user.email) || false;
   };
 
+  const filterProductions = (productions: Production[], statuses: Set<ProductionStatus | 'all'>): Production[] => {
+    if (statuses.has('all')) {
+      return productions;
+    }
+    return productions.filter(production => {
+      const status = production.status || 'pre_production';
+      return statuses.has(status);
+    });
+  };
+
+  const sortProductions = (productions: Production[], sortOption: SortOption): Production[] => {
+    return [...productions].sort((a, b) => {
+      switch (sortOption) {
+        case 'date_created':
+          const dateA = a.created_date ? new Date(a.created_date).getTime() : 0;
+          const dateB = b.created_date ? new Date(b.created_date).getTime() : 0;
+          return dateB - dateA; // Most recent first
+        case 'start_date':
+          const startA = a.start_date ? new Date(a.start_date).getTime() : 0;
+          const startB = b.start_date ? new Date(b.start_date).getTime() : 0;
+          return startA - startB; // Earliest first
+        case 'name':
+          return a.name.localeCompare(b.name);
+        default:
+          return 0;
+      }
+    });
+  };
+
+  const handleStatusToggle = (status: ProductionStatus | 'all') => {
+    setSelectedStatuses(prev => {
+      const newSet = new Set(prev);
+      if (status === 'all') {
+        if (newSet.has('all')) {
+          newSet.clear();
+          newSet.add('all');
+        } else {
+          newSet.clear();
+          newSet.add('all');
+        }
+      } else {
+        newSet.delete('all');
+        if (newSet.has(status)) {
+          newSet.delete(status);
+          if (newSet.size === 0) {
+            newSet.add('all');
+          }
+        } else {
+          newSet.add(status);
+        }
+      }
+      return newSet;
+    });
+  };
+
+  const filteredProductions = filterProductions(productions, selectedStatuses);
+  const sortedProductions = sortProductions(filteredProductions, sortBy);
+
   if (isLoading) {
     return (
       <div className="min-h-screen bg-dark-green flex items-center justify-center">
@@ -105,7 +169,7 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen" style={{ backgroundColor: 'var(--white)' }}>
 
       <nav className="nav-toolbar">
           <div className="toolbar-group left">
@@ -132,21 +196,93 @@ export default function Dashboard() {
       <div className="max-w-7xl mx-auto pt-32">
         {/* Header */}
         <div className="mb-12">
-          <h1 className="text-4xl font-bold text-dark-green mb-2">
-            Your Productions
-          </h1>
-          <Button 
-            onClick={() => setIsCreateModalOpen(true)}
-            className="bg-gradient-to-r from-[#065f46] to-[#0d9488] hover:from-[#064e3b] hover:to-[#0f766e] text-[#fafaf9] px-6 py-3 flex items-center gap-2 transition-all duration-200"
-          >
-            <Plus className="w-5 h-5" />
-            Create New Production
-          </Button>
+          <div className="flex justify-between items-center mb-4">
+            <h1 className="text-4xl font-bold text-dark-green">
+              Your Productions
+            </h1>
+            <div className="flex items-center gap-3">
+              {/* Sort Dropdown */}
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button 
+                    variant="outline"
+                    className="bg-white border-gray-300 text-gray-700 hover:bg-gray-50 px-4 py-2 flex items-center gap-2"
+                  >
+                    <ArrowUpDown className="w-4 h-4" />
+                    Sort by: {sortBy === 'date_created' ? 'Date Created' : sortBy === 'start_date' ? 'Start Date' : 'Name'}
+                    <ChevronDown className="w-4 h-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="bg-white border border-gray-200 shadow-lg">
+                  <DropdownMenuItem 
+                    onClick={() => setSortBy('date_created')}
+                    className="hover:bg-gray-100"
+                  >
+                    Date Created
+                  </DropdownMenuItem>
+                  <DropdownMenuItem 
+                    onClick={() => setSortBy('start_date')}
+                    className="hover:bg-gray-100"
+                  >
+                    Start Date
+                  </DropdownMenuItem>
+                  <DropdownMenuItem 
+                    onClick={() => setSortBy('name')}
+                    className="hover:bg-gray-100"
+                  >
+                    Name
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+              
+              <Button 
+                onClick={() => setIsCreateModalOpen(true)}
+                className="bg-gradient-to-r from-[#065f46] to-[#0d9488] hover:from-[#064e3b] hover:to-[#0f766e] text-[#fafaf9] px-6 py-3 flex items-center gap-2 transition-all duration-200"
+              >
+                <Plus className="w-5 h-5" />
+                Create New Production
+              </Button>
+            </div>
+          </div>
+        </div>
+
+        {/* Filter Section */}
+        <div className="mb-8">
+          <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+            <h3 className="text-sm font-semibold text-gray-700 mb-3">Filter by Status</h3>
+            <div className="flex flex-wrap gap-4">
+              {/* All checkbox */}
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={selectedStatuses.has('all')}
+                  onChange={() => handleStatusToggle('all')}
+                  className="w-4 h-4 text-[#065f46] bg-white border-gray-300 rounded focus:ring-[#065f46] focus:ring-2 accent-[#065f46]"
+                />
+                <span className="text-sm text-gray-700 font-medium">All</span>
+              </label>
+              
+              {/* Status checkboxes */}
+              {(['pre_production', 'in_production', 'post_production', 'completed', 'archived'] as ProductionStatus[]).map((status) => (
+                <label key={status} className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={selectedStatuses.has(status)}
+                    onChange={() => handleStatusToggle(status)}
+                    className="w-4 h-4 text-[#065f46] bg-white border-gray-300 rounded focus:ring-[#065f46] focus:ring-2 accent-[#065f46]"
+                  />
+                  <span className="text-sm text-gray-700 capitalize">
+                    {status.replace('_', ' ')}
+                  </span>
+                </label>
+              ))}
+            </div>
+          </div>
         </div>
 
         {/* Productions Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {productions.map((production) => {
+          {sortedProductions.map((production) => {
             const userHasAccess = hasAccess(production);
             
             return (
@@ -164,12 +300,11 @@ export default function Dashboard() {
                       ? 'hover:border-[#0d9488] hover:shadow-lg hover:shadow-[#0d9488]/20 cursor-pointer' 
                       : 'opacity-60 cursor-not-allowed'
                   }`}>
-                    {/* Color accent bar */}
-                    <div className={`absolute top-0 left-0 right-0 h-1 ${
-                      userHasAccess 
-                        ? 'bg-gradient-to-r from-[#0d9488] to-[#10b981]' 
-                        : 'bg-gradient-to-r from-[#991b1b] to-[#f59e0b]'
-                    }`} />
+                    {/* Theme color accent bar */}
+                    <div 
+                      className="absolute top-0 left-0 right-0 h-1"
+                      style={{ backgroundColor: production.color || '#065f46' }}
+                    />
                     
                     {/* Lock icon */}
                     <div className="flex justify-between items-start mb-4">
@@ -178,15 +313,20 @@ export default function Dashboard() {
                           {production.name}
                         </h3>
                       </div>
-                      <div className={`p-3 rounded-lg ${
-                        userHasAccess 
-                          ? 'bg-[#0d9488]/20' 
-                          : 'bg-[#991b1b]/20'
-                      }`}>
+                      <div 
+                        className="p-3 rounded-lg"
+                        style={{ 
+                          backgroundColor: userHasAccess 
+                            ? '#065f4620' 
+                            : '#991b1b20'
+                        }}
+                      >
                         {userHasAccess ? (
-                          <LockOpen className={`w-6 h-6 text-[#10b981]`} />
+                          <LockOpen 
+                            className="w-6 h-6 text-[#10b981]" 
+                          />
                         ) : (
-                          <Lock className={`w-6 h-6 text-[#991b1b]`} />
+                          <Lock className="w-6 h-6 text-[#991b1b]" />
                         )}
                       </div>
                     </div>
@@ -199,10 +339,15 @@ export default function Dashboard() {
                       <span className="text-gray-500 text-xs">
                         Created {production.created_date ? new Date(production.created_date).toLocaleDateString() : 'Unknown'}
                       </span>
-                      <span className={`text-xs font-semibold ${
-                        userHasAccess ? 'text-[#10b981]' : 'text-[#991b1b]'
-                      }`}>
-                        {userHasAccess ? 'Access Granted' : 'No Access'}
+                      <span 
+                        className="text-xs font-semibold"
+                        style={{ 
+                          color: userHasAccess 
+                            ? (production.color || '#065f46') 
+                            : '#991b1b'
+                        }}
+                      >
+                        {userHasAccess ? '' : 'No Access'}
                       </span>
                     </div>
                   </Card>
@@ -212,7 +357,7 @@ export default function Dashboard() {
           })}
         </div>
 
-        {productions.length === 0 && (
+        {sortedProductions.length === 0 && (
           <div className="text-center py-20">
             <p className="text-gray-400 text-lg">No productions available</p>
           </div>

@@ -1,4 +1,4 @@
-export interface File {
+export interface FileData {
   id?: string;
   production_id: string;
   name: string;
@@ -11,22 +11,22 @@ export interface File {
 }
 
 export class File {
-  static async create(data: Omit<File, 'id'>): Promise<File> {
+  static async create(data: Omit<FileData, 'id'>): Promise<FileData> {
     // TODO: Implement API call to create file
     throw new Error('Not implemented');
   }
 
-  static async filter(filter: { production_id?: string }, orderBy?: string): Promise<File[]> {
+  static async filter(_filter: { production_id?: string }, _orderBy?: string): Promise<FileData[]> {
     // TODO: Implement API call to filter files
     throw new Error('Not implemented');
   }
 
-  static async update(id: string, data: Partial<File>): Promise<File> {
+  static async update(_id: string, _data: Partial<FileData>): Promise<FileData> {
     // TODO: Implement API call to update file
     throw new Error('Not implemented');
   }
 
-  static async delete(id: string): Promise<void> {
+  static async delete(_id: string): Promise<void> {
     // TODO: Implement API call to delete file
     throw new Error('Not implemented');
   }

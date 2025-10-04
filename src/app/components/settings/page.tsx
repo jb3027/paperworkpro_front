@@ -67,7 +67,7 @@ export default function Settings() {
   }
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#f5f5f5' }}>
+    <div className="min-h-screen" style={{ backgroundColor: 'var(--white)' }}>
       <nav className="nav-toolbar">
           <div className="toolbar-group left">
             <span className="brand-text">PaperworkPRO</span>

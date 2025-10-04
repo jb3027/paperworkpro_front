@@ -250,17 +250,14 @@ export default function CreateProductionModal({ onClose, onSubmit }: CreateProdu
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5 }}
             >
-              <Label className="text-sm font-medium text-[#e2e8f0] mb-3 block">Theme Color</Label>
+              <Label className="text-sm font-medium text-[#e2e8f0] mb-3 block">Theme Colour</Label>
               <div className="flex gap-4 flex-wrap">
                 {[
                   { color: '#065f46', name: 'Forest Green' },
                   { color: '#0d9488', name: 'Teal' },
-                  { color: '#f59e0b', name: 'Amber' },
-                  { color: '#991b1b', name: 'Rose' },
                   { color: '#10b981', name: 'Emerald' },
-                  { color: '#8b5cf6', name: 'Purple' },
-                  { color: '#ef4444', name: 'Red' },
-                  { color: '#06b6d4', name: 'Cyan' }
+                  { color: '#f59e0b', name: 'Amber' },
+                  { color: '#991b1b', name: 'Rose' }
                 ].map(({ color, name }) => (
                   <motion.button
                     key={color}
@@ -280,9 +277,6 @@ export default function CreateProductionModal({ onClose, onSubmit }: CreateProdu
                         className="absolute inset-0 ring-4 ring-[#fafaf9] rounded-lg"
                       />
                     )}
-                    <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 text-xs text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
-                      {name}
-                    </div>
                   </motion.button>
                 ))}
               </div>
@@ -310,12 +304,10 @@ export default function CreateProductionModal({ onClose, onSubmit }: CreateProdu
                 <div className="flex items-center gap-2">
                   {isSubmitting ? (
                     <>
-                      <Film className="w-4 h-4" />
                       Creating...
                     </>
                   ) : (
                     <>
-                      <Film className="w-4 h-4" />
                       Create Production
                     </>
                   )}

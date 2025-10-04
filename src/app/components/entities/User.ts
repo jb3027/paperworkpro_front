@@ -1,4 +1,4 @@
-export interface User {
+export interface UserData {
   id?: string;
   email: string;
   full_name?: string;
@@ -7,7 +7,7 @@ export interface User {
 }
 
 export class User {
-  static async me(): Promise<User> {
+  static async me(): Promise<UserData> {
     // TODO: Implement API call to get current user
     throw new Error('Not implemented');
   }
@@ -17,12 +17,12 @@ export class User {
     throw new Error('Not implemented');
   }
 
-  static async create(data: Omit<User, 'id'>): Promise<User> {
+  static async create(data: Omit<UserData, 'id'>): Promise<UserData> {
     // TODO: Implement API call to create user
     throw new Error('Not implemented');
   }
 
-  static async update(id: string, data: Partial<User>): Promise<User> {
+  static async update(_id: string, _data: Partial<UserData>): Promise<UserData> {
     // TODO: Implement API call to update user
     throw new Error('Not implemented');
   }

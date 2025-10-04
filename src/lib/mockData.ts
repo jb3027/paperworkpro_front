@@ -9,6 +9,7 @@ export interface User {
 
 export interface File {
   id: string;
+  production_id: string;
   name: string;
   file_type: 'contract' | 'script' | 'schedule' | 'budget' | 'call_sheet' | 'release_form' | 'permit' | 'invoice' | 'other';
   file_url?: string;
@@ -72,6 +73,7 @@ export const mockProductions: Production[] = [
 export const mockFiles: File[] = [
   {
     id: '1',
+    production_id: '1',
     name: 'Script Draft 1',
     file_type: 'script',
     file_url: 'https://example.com/script1.pdf',
