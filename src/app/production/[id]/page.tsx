@@ -4,11 +4,12 @@ import React, { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { ProductionService, FileService, UserService } from "@/lib/services";
 import { Production, File, User } from "@/lib/mockData";
-import { ArrowLeft, FileVideo } from "lucide-react";
+import { ArrowLeft, FileVideo, Plus } from "lucide-react";
 import { Button } from "@/app/components/ui/button";
 import { Card } from "@/app/components/ui/card";
 import { Badge } from "@/app/components/ui/badge";
 import { ProductionNavbar } from "@/app/components/ui/production-navbar";
+import BroadcastModeModal from "@/app/components/modals/BroadcastModeModal";
 import Link from "next/link";
 
 export default function ProductionDetailPage() {
@@ -20,6 +21,7 @@ export default function ProductionDetailPage() {
   const [files, setFiles] = useState<File[]>([]);
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [showBroadcastModal, setShowBroadcastModal] = useState(false);
 
   
 
@@ -57,11 +59,27 @@ export default function ProductionDetailPage() {
     console.log("Add file clicked for production:", productionId);
   };
 
+  const handleBroadcastMode = () => {
+    setShowBroadcastModal(true);
+  };
+
+  const handleBroadcastSubmit = (formData: any) => {
+    console.log("Starting broadcast session:", formData);
+    // TODO: Implement actual broadcast session creation
+    setShowBroadcastModal(false);
+    // Navigate to broadcast mode page after successful creation
+    router.push(`/production/${productionId}/broadcast-mode`);
+  };
+
+  const handleBroadcastCancel = () => {
+    setShowBroadcastModal(false);
+  };
+
   if (isLoading) {
     return (
       <div className="min-h-screen bg-[#f5f5f5]">
         {/* Production Navbar */}
-        <ProductionNavbar productionId={productionId} onAddFile={() => {}} />
+        <ProductionNavbar productionId={productionId} />
         
         <div className="p-6">
           <div className="max-w-7xl mx-auto flex items-center justify-center min-h-[60vh]">
@@ -76,7 +94,7 @@ export default function ProductionDetailPage() {
     return (
       <div className="min-h-screen bg-[#f5f5f5]">
         {/* Production Navbar */}
-        <ProductionNavbar productionId={productionId} onAddFile={() => {}} />
+        <ProductionNavbar productionId={productionId} />
         
         <div className="p-6">
           <div className="max-w-7xl mx-auto flex items-center justify-center min-h-[60vh]">
@@ -100,7 +118,7 @@ export default function ProductionDetailPage() {
     return (
       <div className="min-h-screen bg-[#f5f5f5]">
         {/* Production Navbar */}
-        <ProductionNavbar productionId={productionId} onAddFile={() => {}} />
+        <ProductionNavbar productionId={productionId} />
         
         <div className="p-6">
           <div className="max-w-7xl mx-auto flex items-center justify-center min-h-[60vh]">
@@ -125,10 +143,10 @@ export default function ProductionDetailPage() {
   return (
     <div className="min-h-screen bg-[#f5f5f5]">
       {/* Production Navbar */}
-      <ProductionNavbar productionId={productionId} onAddFile={handleAddFile} />
+      <ProductionNavbar productionId={productionId} />
       
       <div className="p-6">
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-7xl mx-auto mt-20">
           {/* Back button */}
           <Link href="/">
             <Button variant="ghost" className="text-gray-600 hover:text-[var(--black)] hover:bg-gray-100 mb-6">
@@ -139,38 +157,52 @@ export default function ProductionDetailPage() {
 
         {/* Header with mode navigation */}
         <div className="mb-8">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="p-3 rounded-lg bg-[#0d9488]/20">
-              <FileVideo className="w-8 h-8 text-[#0d9488]" />
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-3">
+              <div className="p-3 rounded-lg bg-[#0d9488]/20">
+                <FileVideo className="w-8 h-8 text-[#0d9488]" />
+              </div>
+              <div>
+                <h1 className="text-4xl font-bold text-[var(--black)]">
+                  {production.name}
+                </h1>
+                <p className="text-gray-600 mt-1">
+                  {production.description || 'No description available'}
+                </p>
+              </div>
             </div>
-            <div>
-              <h1 className="text-4xl font-bold text-[var(--black)]">
-                {production.name}
-              </h1>
-              <p className="text-gray-600 mt-1">
-                {production.description || 'No description available'}
-              </p>
-            </div>
-          </div>
+            {/* Mode Navigation */}
+            <div className="flex gap-4">
+              <Link href={`/production/${productionId}/edit-mode`}>
+                <Button className="bg-[#0d9488] hover:bg-[#0d9488]/80 text-[#fafaf9] px-8 py-6 text-lg">
+                  Create Paperwork
+                </Button>
+              </Link>
+              
+                <Button 
+                onClick={handleBroadcastMode}
+                className="bg-[#991b1b] hover:bg-[#991b1b]/80 text-[#fafaf9] px-8 py-6 text-lg">
+                  Broadcast Mode
+                </Button>
 
-          {/* Mode Navigation */}
-          <div className="flex gap-4 mt-6">
-            <Link href={`/production/${productionId}/edit-mode`}>
-              <Button className="bg-[#0d9488] hover:bg-[#0d9488]/80 text-[#fafaf9] px-8 py-6 text-lg">
-                Edit Mode
-              </Button>
-            </Link>
-            <Link href={`/production/${productionId}/broadcast-mode`}>
-              <Button className="bg-[#991b1b] hover:bg-[#991b1b]/80 text-[#fafaf9] px-8 py-6 text-lg">
-                Broadcast Mode
-              </Button>
-            </Link>
+                <Link href={`/production/${productionId}/broadcast-mode`}>
+              </Link>
+            </div>
           </div>
         </div>
 
         {/* Files Section */}
         <div>
-          <h2 className="text-2xl font-semibold text-[var(--black)] mb-6">Files</h2>
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-2xl font-semibold text-[var(--black)]">Files</h2>
+            <Button
+              onClick={handleAddFile}
+              className="bg-[var(--accent-green)] hover:bg-[var(--accent-green-hover)] text-[#fafaf9] px-4 py-2 flex items-center gap-2 transition-all duration-200"
+            >
+              <Plus className="w-4 h-4" />
+              Add File
+            </Button>
+          </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {files.length > 0 ? (
@@ -204,6 +236,16 @@ export default function ProductionDetailPage() {
         </div>
         </div>
       </div>
+
+      {/* Broadcast Mode Modal */}
+      {showBroadcastModal && production && (
+        <BroadcastModeModal
+          onClose={handleBroadcastCancel}
+          onSubmit={handleBroadcastSubmit}
+          productionName={production.name}
+          userRole="admin"
+        />
+      )}
     </div>
   );
 }

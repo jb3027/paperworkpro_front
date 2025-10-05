@@ -17,7 +17,7 @@ import { Card } from '@/app/components/ui/card';
 import { Button } from '@/app/components/ui/button';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import CreateProductionModal from '@/app/components/productions/createProductionModal';
+import CreateProductionModal from '@/app/components/modals/createProductionModal';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/app/components/ui/dropdown-menu';
 
 export default function Dashboard() {

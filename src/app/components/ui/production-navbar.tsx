@@ -2,17 +2,15 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
-import { Plus, ChevronDown } from "lucide-react";
-import { Button } from "@/app/components/ui/button";
+import { ChevronDown } from "lucide-react";
 import { UserService } from "@/lib/services";
 import { User } from "@/lib/mockData";
 
 interface ProductionNavbarProps {
   productionId: string;
-  onAddFile?: () => void;
 }
 
-export function ProductionNavbar({ onAddFile }: ProductionNavbarProps) {
+export function ProductionNavbar({}: ProductionNavbarProps) {
   const [user, setUser] = useState<User | null>(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, right: 0 });
@@ -68,14 +66,6 @@ export function ProductionNavbar({ onAddFile }: ProductionNavbarProps) {
 
         <div className="toolbar-group right">
           <div className="flex items-center gap-3">
-            <Button
-              onClick={onAddFile}
-              className="bg-[var(--accent-green)] hover:bg-[var(--accent-green-hover)] text-[#fafaf9] px-4 py-2 flex items-center gap-2 transition-all duration-200"
-            >
-              <Plus className="w-4 h-4" />
-              Add File
-            </Button>
-            
             <div className="user-dropdown">
               <span className="welcome-text">Welcome, {user?.full_name || 'User'}</span>
               <button 

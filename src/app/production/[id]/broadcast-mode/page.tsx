@@ -19,9 +19,9 @@ export default function BroadcastModePage() {
   return (
     <div className="min-h-screen bg-[#f5f5f5]]">
       {/* Production Navbar */}
-      <ProductionNavbar productionId={productionId} onAddFile={handleAddFile} />
+      <ProductionNavbar productionId={productionId} />
       
-      <div className="p-6">
+      <div className="p-6 mt-20">
         <div className="max-w-7xl mx-auto">
         {/* Back button */}
         <Link href={`/production/${productionId}`}>
@@ -39,7 +39,7 @@ export default function BroadcastModePage() {
           <h1 className="text-4xl font-bold text-[var(--black)] mb-2">
             Coming soon!
           </h1>
-          <p className="text-gray-600 text-lg">
+          <p className="text-gray-600 text-lg mt-50">
             Hopefully
           </p>
         </div>

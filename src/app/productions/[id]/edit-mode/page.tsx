@@ -19,7 +19,7 @@ export default function EditModePage() {
   return (
     <div className="min-h-screen bg-[var(--white)]">
       {/* Production Navbar */}
-      <ProductionNavbar productionId={productionId} onAddFile={handleAddFile} />
+      <ProductionNavbar productionId={productionId} />
       
       <div className="p-6">
         <div className="max-w-7xl mx-auto">
