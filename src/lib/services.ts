@@ -110,8 +110,7 @@ export class FileService {
       file_url: URL.createObjectURL(file),
       file_size: file.size,
       created_date: new Date().toISOString(),
-      description: `Uploaded file: ${file.name}`,
-      production_id: productionId || ""
+      description: `Uploaded file: ${file.name}`
     };
     
     mockFiles.push(uploadedFile);

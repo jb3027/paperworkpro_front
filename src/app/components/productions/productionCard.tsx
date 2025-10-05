@@ -4,11 +4,11 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { Calendar, Users, ChevronRight, LockOpen } from "lucide-react";
+import { Calendar, Users, ChevronRight } from "lucide-react";
 import { format } from "date-fns";
 import { Badge } from "@/app/components/ui/badge";
-import { ProductionData } from "@/app/components/entities/Production";
-import { UserData } from "@/app/components/entities/User";
+import { Production } from "@/app/components/entities/Production";
+import { User } from "@/app/components/entities/User";
 
 const statusColors = {
   pre_production: "bg-[#f59e0b]/20 text-[#f59e0b] border-[#f59e0b]/30",
@@ -19,8 +19,8 @@ const statusColors = {
 };
 
 interface ProductionCardProps {
-  production: ProductionData;
-  user: UserData | null;
+  production: Production;
+  user: User | null;
 }
 
 export default function ProductionCard({ production }: ProductionCardProps) {
@@ -34,11 +34,6 @@ export default function ProductionCard({ production }: ProductionCardProps) {
     >
       <Link href={`/production/${production.id}`}>
         <div className="group relative bg-[#1e293b] rounded-2xl overflow-hidden border border-gray-800 hover:border-[#0d9488] transition-all duration-300 shadow-lg hover:shadow-[#0d9488]/20">
-          {/* Theme color top border */}
-          <div 
-            className="absolute top-0 left-0 right-0 h-1"
-            style={{ backgroundColor: production.color || '#065f46' }}
-          />
           {production.cover_image ? (
             <div className="h-48 overflow-hidden">
               <Image 
@@ -62,16 +57,7 @@ export default function ProductionCard({ production }: ProductionCardProps) {
             </div>
           )}
 
-          <div className="absolute top-4 right-4 flex gap-2">
-            <div 
-              className="p-2 rounded-lg bg-black/20"
-              style={{ backgroundColor: `${production.color || '#065f46'}20` }}
-            >
-              <LockOpen 
-                className="w-4 h-4" 
-                style={{ color: production.color || '#065f46' }}
-              />
-            </div>
+          <div className="absolute top-4 right-4">
             <Badge className={`${statusColors[production.status || 'archived']} border font-medium`}>
               {production.status?.replace(/_/g, ' ') || 'Unknown'}
             </Badge>

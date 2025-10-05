@@ -2,7 +2,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { FileText, Film, Calendar, DollarSign, FileCheck, ClipboardList, ShieldCheck, Receipt, MoreVertical, Trash2, ExternalLink } from "lucide-react";
 import { format } from "date-fns";
-import { FileData } from "@/app/components/entities/File";
+import { File } from "@/app/components/entities/File";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -25,7 +25,7 @@ const fileTypeIcons = {
 };
 
 interface FileCardProps {
-  file: FileData;
+  file: File;
   editMode: boolean;
   viewMode: 'grid' | 'list';
   onDelete: (fileId: string) => void;

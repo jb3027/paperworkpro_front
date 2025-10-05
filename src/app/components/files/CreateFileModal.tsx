@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 
 interface CreateFileModalProps {
   onClose: () => void;
-  onSubmit: (data: { name: string; file_type: string; notes: string; category: string }) => void;
+  onSubmit: (data: any) => void;
 }
 
 export default function CreateFileModal({ onClose, onSubmit }: CreateFileModalProps) {

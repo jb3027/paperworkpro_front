@@ -202,7 +202,6 @@ body {
   } 
 }
 
-
 @layer utilities {
   .bg-dark-green {
     background-color: var(--dark-green);
