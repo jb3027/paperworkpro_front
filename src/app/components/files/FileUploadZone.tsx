@@ -2,7 +2,7 @@
 import React, { useState, useCallback } from "react";
 import { UploadFile } from "@/integrations/Core";
 import { Card } from "../ui/card";
-import { Upload, Loader2, CheckCircle } from "lucide-react";
+import { Upload, Loader2 } from "lucide-react";
 import { Button } from "@/app/components/ui/button";
 
 import { FileData } from "@/app/components/entities/File";
@@ -43,7 +43,7 @@ export default function FileUploadZone({ onFilesUploaded, productionId }: FileUp
     await onFilesUploaded(uploadedFiles);
     setUploading(false);
     setUploadedCount(0);
-  }, [onFilesUploaded]);
+  }, [onFilesUploaded, productionId]);
 
   const handleDrag = useCallback((e: React.DragEvent) => {
     e.preventDefault();

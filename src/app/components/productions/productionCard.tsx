@@ -2,9 +2,9 @@
 
 import React from "react";
 import Link from "next/link";
-import { createPageUrl } from "@/app/components/utils";
+import Image from "next/image";
 import { motion } from "framer-motion";
-import { Calendar, Users, ChevronRight, Lock, LockOpen } from "lucide-react";
+import { Calendar, Users, ChevronRight, LockOpen } from "lucide-react";
 import { format } from "date-fns";
 import { Badge } from "@/app/components/ui/badge";
 import { ProductionData } from "@/app/components/entities/Production";
@@ -23,7 +23,7 @@ interface ProductionCardProps {
   user: UserData | null;
 }
 
-export default function ProductionCard({ production, user }: ProductionCardProps) {
+export default function ProductionCard({ production }: ProductionCardProps) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -41,9 +41,11 @@ export default function ProductionCard({ production, user }: ProductionCardProps
           />
           {production.cover_image ? (
             <div className="h-48 overflow-hidden">
-              <img 
+              <Image 
                 src={production.cover_image} 
                 alt={production.name}
+                width={400}
+                height={192}
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
             </div>

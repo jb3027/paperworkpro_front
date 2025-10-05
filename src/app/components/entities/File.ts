@@ -11,7 +11,7 @@ export interface FileData {
 }
 
 export class File {
-  static async create(data: Omit<FileData, 'id'>): Promise<FileData> {
+  static async create(_data: Omit<FileData, 'id'>): Promise<FileData> {
     // TODO: Implement API call to create file
     throw new Error('Not implemented');
   }

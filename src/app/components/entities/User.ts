@@ -17,7 +17,7 @@ export class User {
     throw new Error('Not implemented');
   }
 
-  static async create(data: Omit<UserData, 'id'>): Promise<UserData> {
+  static async create(_data: Omit<UserData, 'id'>): Promise<UserData> {
     // TODO: Implement API call to create user
     throw new Error('Not implemented');
   }

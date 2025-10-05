@@ -7,7 +7,7 @@ import { Input } from "@/app/components/ui/input";
 import { Textarea } from "@/app/components/ui/textarea";
 import { Label } from "@/app/components/ui/label";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/app/components/ui/dropdown-menu";
-import { X, ChevronDown, Film, Calendar, Palette, Edit3, Clock, Play } from "lucide-react";
+import { X, ChevronDown, Film, Calendar, Play } from "lucide-react";
 import { motion } from "framer-motion";
 
 interface CreateProductionData {
@@ -258,7 +258,7 @@ export default function CreateProductionModal({ onClose, onSubmit }: CreateProdu
                   { color: '#10b981', name: 'Emerald' },
                   { color: '#f59e0b', name: 'Amber' },
                   { color: '#991b1b', name: 'Rose' }
-                ].map(({ color, name }) => (
+                ].map(({ color }) => (
                   <motion.button
                     key={color}
                     type="button"

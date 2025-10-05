@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 interface SelectProps {
   value: string;
@@ -6,7 +6,7 @@ interface SelectProps {
   children: React.ReactNode;
 }
 
-export function Select({ value, onValueChange, children }: SelectProps) {
+export function Select({ children }: SelectProps) {
   return (
     <div className="relative">
       {children}

@@ -8,7 +8,7 @@ export class UserService {
     return getCurrentUser();
   }
 
-  static async login(email: string, password: string): Promise<User> {
+  static async login(email: string, _password: string): Promise<User> {
     await new Promise(resolve => setTimeout(resolve, 1000));
     const user = mockUsers.find(u => u.email === email);
     if (!user) {

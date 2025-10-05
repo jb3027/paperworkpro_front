@@ -1,10 +1,10 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { UserService, FileService } from '@/lib/services';
 import { User, File } from '@/lib/mockData';
 import { 
-  Plus, Upload, Search, Filter, Grid, List, 
+  Plus, Upload, Search, Grid, List, 
   FileText, Film, Calendar, DollarSign, FileCheck, 
   ClipboardList, ShieldCheck, Receipt, MoreVertical, 
   Trash2, ExternalLink, Edit
@@ -43,12 +43,23 @@ export default function FilesPage() {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [editMode, setEditMode] = useState(false);
 
-  useEffect(() => {
-    loadData();
-  }, []);
+  const filterFiles = useCallback(() => {
+    let filtered = files;
 
-  useEffect(() => {
-    filterFiles();
+    // Filter by search term
+    if (searchTerm) {
+      filtered = filtered.filter(file =>
+        file.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        file.description?.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+
+    // Filter by type
+    if (filterType !== 'all') {
+      filtered = filtered.filter(file => file.file_type === filterType);
+    }
+
+    setFilteredFiles(filtered);
   }, [files, searchTerm, filterType]);
 
   const loadData = async () => {
@@ -67,24 +78,13 @@ export default function FilesPage() {
     }
   };
 
-  const filterFiles = () => {
-    let filtered = files;
+  useEffect(() => {
+    loadData();
+  }, []);
 
-    // Filter by search term
-    if (searchTerm) {
-      filtered = filtered.filter(file =>
-        file.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        file.description?.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    }
-
-    // Filter by type
-    if (filterType !== 'all') {
-      filtered = filtered.filter(file => file.file_type === filterType);
-    }
-
-    setFilteredFiles(filtered);
-  };
+  useEffect(() => {
+    filterFiles();
+  }, [files, searchTerm, filterType, filterFiles]);
 
   const handleDeleteFile = async (fileId: string) => {
     if (window.confirm('Are you sure you want to delete this file?')) {

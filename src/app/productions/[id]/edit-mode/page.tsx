@@ -7,7 +7,7 @@ import { Button } from "@/app/components/ui/button";
 import { ProductionNavbar } from "@/app/components/ui/production-navbar";
 import Link from "next/link";
 
-export default function BroadcastModePage() {
+export default function EditModePage() {
   const params = useParams();
   const productionId = params.id as string;
 
@@ -17,7 +17,7 @@ export default function BroadcastModePage() {
   };
 
   return (
-    <div className="min-h-screen bg-[var(--red)]">
+    <div className="min-h-screen bg-[var(--white)]">
       {/* Production Navbar */}
       <ProductionNavbar productionId={productionId} onAddFile={handleAddFile} />
       
@@ -33,11 +33,11 @@ export default function BroadcastModePage() {
 
         {/* Header */}
         <div className="mb-12">
-          <div className="inline-block px-4 py-2 bg-[#f59e0b]/20 rounded-lg mb-4">
-            <span className="text-[#f59e0b] font-semibold text-sm">BROADCAST MODE</span>
+          <div className="inline-block px-4 py-2 bg-[#0d9488]/20 rounded-lg mb-4">
+            <span className="text-[#10b981] font-semibold text-sm">EDIT MODE</span>
           </div>
           <h1 className="text-4xl font-bold text-[var(--black)] mb-2">
-            Broadcast Mode
+            Edit Mode
           </h1>
           <p className="text-gray-600 text-lg">
             This page is under construction
@@ -49,8 +49,8 @@ export default function BroadcastModePage() {
           <Calendar className="w-12 h-12 text-gray-400 mx-auto mb-4" />
           <h3 className="text-lg font-semibold text-gray-700 mb-2">Coming Soon</h3>
           <p className="text-gray-500 max-w-md mx-auto">
-            Broadcast mode functionality is currently being developed. 
-            You'll be able to monitor real-time production progress and collaborate with your team.
+            Edit mode functionality is currently being developed. 
+            You'll be able to manage production details, settings, and more.
           </p>
         </div>
         </div>

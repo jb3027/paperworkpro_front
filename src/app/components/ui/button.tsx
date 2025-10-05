@@ -29,7 +29,7 @@ export function Button({
   };
 
   if (asChild) {
-    const { disabled, form, formAction, formEncType, formMethod, formNoValidate, formTarget, name, type, value, ...divProps } = props;
+    const { disabled: _disabled, form: _form, formAction: _formAction, formEncType: _formEncType, formMethod: _formMethod, formNoValidate: _formNoValidate, formTarget: _formTarget, name: _name, type: _type, value: _value, ...divProps } = props;
     return (
       <div 
         className={`${baseClasses} ${variantClasses[variant]} ${sizeClasses[size]} ${className}`}

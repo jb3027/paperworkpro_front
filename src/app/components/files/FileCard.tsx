@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { FileText, Film, Calendar, DollarSign, FileCheck, ClipboardList, ShieldCheck, Receipt, MoreVertical, Trash2, Download, ExternalLink } from "lucide-react";
+import { FileText, Film, Calendar, DollarSign, FileCheck, ClipboardList, ShieldCheck, Receipt, MoreVertical, Trash2, ExternalLink } from "lucide-react";
 import { format } from "date-fns";
 import { FileData } from "@/app/components/entities/File";
 import {

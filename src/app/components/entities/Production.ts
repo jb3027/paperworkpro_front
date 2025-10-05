@@ -10,7 +10,7 @@ export interface ProductionData {
 }
 
 export class Production {
-  static async create(data: Omit<ProductionData, 'id'>): Promise<ProductionData> {
+  static async create(_data: Omit<ProductionData, 'id'>): Promise<ProductionData> {
     // TODO: Implement API call to create production
     throw new Error('Not implemented');
   }
