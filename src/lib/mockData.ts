@@ -17,6 +17,7 @@ export interface File {
   updated_date?: string;
   description?: string;
   category?: string;
+  production_id?: string;
 }
 
 export interface Production {
@@ -69,18 +70,7 @@ export const mockProductions: Production[] = [
 ];
 
 // Mock files
-export const mockFiles: File[] = [
-  {
-    id: '1',
-    name: 'Script Draft 1',
-    file_type: 'script',
-    file_url: 'https://example.com/script1.pdf',
-    file_size: 1024000,
-    created_date: '2024-01-01T10:00:00Z',
-    description: 'Initial script draft',
-    category: 'Creative'
-  }
-];
+export const mockFiles: File[] = [];
 
 // Current user (simulate login)
 export let currentUser: User = mockUsers[0]; // Default to admin

@@ -280,9 +280,6 @@ export default function CreateProductionModal({ onClose, onSubmit }: CreateProdu
                         className="absolute inset-0 ring-4 ring-[#fafaf9] rounded-lg"
                       />
                     )}
-                    <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 text-xs text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
-                      {name}
-                    </div>
                   </motion.button>
                 ))}
               </div>

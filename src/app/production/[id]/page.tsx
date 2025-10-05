@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { ProductionService, FileService, UserService } from "@/lib/services";
 import { Production, File, User } from "@/lib/mockData";
-import { ArrowLeft, Lock, LockOpen } from "lucide-react";
+import { ArrowLeft, FileVideo } from "lucide-react";
 import { Button } from "@/app/components/ui/button";
 import { Card } from "@/app/components/ui/card";
 import { Badge } from "@/app/components/ui/badge";
@@ -21,6 +21,8 @@ export default function ProductionDetailPage() {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
+  
+
   useEffect(() => {
     loadData();
   }, [productionId]);
@@ -30,7 +32,7 @@ export default function ProductionDetailPage() {
       const [userData, productionsData, filesData] = await Promise.all([
         UserService.me(),
         ProductionService.getAll(),
-        FileService.getAll()
+        FileService.getByProduction(productionId)
       ]);
 
       setUser(userData);
@@ -57,22 +59,36 @@ export default function ProductionDetailPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-[var(--white)] flex items-center justify-center">
-        <div className="text-[var(--black)] text-xl">Loading...</div>
+      <div className="min-h-screen bg-[#f5f5f5]">
+        {/* Production Navbar */}
+        <ProductionNavbar productionId={productionId} onAddFile={() => {}} />
+        
+        <div className="p-6">
+          <div className="max-w-7xl mx-auto flex items-center justify-center min-h-[60vh]">
+            <div className="text-[var(--black)] text-xl">Loading...</div>
+          </div>
+        </div>
       </div>
     );
   }
 
   if (!production) {
     return (
-      <div className="min-h-screen bg-[var(--white)] flex items-center justify-center">
-        <div className="text-center">
-          <p className="text-gray-600 text-lg mb-4">Production not found</p>
-          <Link href="/">
-            <Button className="bg-[#0d9488] hover:bg-[#0d9488]/80 text-[#fafaf9]">
-              Back to Dashboard
-            </Button>
-          </Link>
+      <div className="min-h-screen bg-[#f5f5f5]">
+        {/* Production Navbar */}
+        <ProductionNavbar productionId={productionId} onAddFile={() => {}} />
+        
+        <div className="p-6">
+          <div className="max-w-7xl mx-auto flex items-center justify-center min-h-[60vh]">
+            <div className="text-center">
+              <p className="text-gray-600 text-lg mb-4">Production not found</p>
+              <Link href="/">
+                <Button className="bg-[#0d9488] hover:bg-[#0d9488]/80 text-[#fafaf9]">
+                  Back to Dashboard
+                </Button>
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -82,25 +98,32 @@ export default function ProductionDetailPage() {
 
   if (!userHasAccess) {
     return (
-      <div className="min-h-screen bg-[var(--white)] flex items-center justify-center">
-        <div className="text-center">
-          <div className="mb-6 inline-flex p-6 rounded-full bg-[#991b1b]/20">
-            <Lock className="w-12 h-12 text-[#991b1b]" />
+      <div className="min-h-screen bg-[#f5f5f5]">
+        {/* Production Navbar */}
+        <ProductionNavbar productionId={productionId} onAddFile={() => {}} />
+        
+        <div className="p-6">
+          <div className="max-w-7xl mx-auto flex items-center justify-center min-h-[60vh]">
+            <div className="text-center">
+              <div className="mb-6 inline-flex p-6 rounded-full bg-[#991b1b]/20">
+                <FileVideo className="w-12 h-12 text-[#991b1b]" />
+              </div>
+              <h1 className="text-2xl font-bold text-[var(--black)] mb-2">Access Denied</h1>
+              <p className="text-gray-600 mb-6">You don't have permission to view this production</p>
+              <Link href="/">
+                <Button className="bg-[#0d9488] hover:bg-[#0d9488]/80 text-[#fafaf9]">
+                  Back to Dashboard
+                </Button>
+              </Link>
+            </div>
           </div>
-          <h1 className="text-2xl font-bold text-[var(--black)] mb-2">Access Denied</h1>
-          <p className="text-gray-600 mb-6">You don't have permission to view this production</p>
-          <Link href="/">
-            <Button className="bg-[#0d9488] hover:bg-[#0d9488]/80 text-[#fafaf9]">
-              Back to Dashboard
-            </Button>
-          </Link>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[var(--white)]">
+    <div className="min-h-screen bg-[#f5f5f5]">
       {/* Production Navbar */}
       <ProductionNavbar productionId={productionId} onAddFile={handleAddFile} />
       
@@ -118,7 +141,7 @@ export default function ProductionDetailPage() {
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-4">
             <div className="p-3 rounded-lg bg-[#0d9488]/20">
-              <LockOpen className="w-6 h-6 text-[#10b981]" />
+              <FileVideo className="w-8 h-8 text-[#0d9488]" />
             </div>
             <div>
               <h1 className="text-4xl font-bold text-[var(--black)]">
@@ -138,7 +161,7 @@ export default function ProductionDetailPage() {
               </Button>
             </Link>
             <Link href={`/production/${productionId}/broadcast-mode`}>
-              <Button className="bg-[#f59e0b] hover:bg-[#f59e0b]/80 text-[#fafaf9] px-8 py-6 text-lg">
+              <Button className="bg-[#991b1b] hover:bg-[#991b1b]/80 text-[#fafaf9] px-8 py-6 text-lg">
                 Broadcast Mode
               </Button>
             </Link>

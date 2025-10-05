@@ -65,7 +65,7 @@ export class FileService {
 
   static async getByProduction(productionId: string): Promise<File[]> {
     await new Promise(resolve => setTimeout(resolve, 400));
-    return mockFiles.filter(f => f.id === productionId); // Simplified for demo
+    return mockFiles.filter(f => f.production_id === productionId);
   }
 
   static async create(data: Omit<File, 'id'>): Promise<File> {
@@ -110,7 +110,8 @@ export class FileService {
       file_url: URL.createObjectURL(file),
       file_size: file.size,
       created_date: new Date().toISOString(),
-      description: `Uploaded file: ${file.name}`
+      description: `Uploaded file: ${file.name}`,
+      production_id: productionId
     };
     
     mockFiles.push(uploadedFile);

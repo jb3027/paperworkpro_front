@@ -17,14 +17,14 @@ export default function BroadcastModePage() {
   };
 
   return (
-    <div className="min-h-screen bg-[var(--red)]">
+    <div className="min-h-screen bg-[#f5f5f5]]">
       {/* Production Navbar */}
       <ProductionNavbar productionId={productionId} onAddFile={handleAddFile} />
       
       <div className="p-6">
         <div className="max-w-7xl mx-auto">
         {/* Back button */}
-        <Link href={`/productions/${productionId}`}>
+        <Link href={`/production/${productionId}`}>
           <Button variant="ghost" className="text-gray-600 hover:text-[var(--black)] hover:bg-gray-100 mb-6">
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Production
@@ -33,24 +33,14 @@ export default function BroadcastModePage() {
 
         {/* Header */}
         <div className="mb-12">
-          <div className="inline-block px-4 py-2 bg-[#f59e0b]/20 rounded-lg mb-4">
-            <span className="text-[#f59e0b] font-semibold text-sm">BROADCAST MODE</span>
+          <div className="inline-block px-4 py-2 bg-[var(--red)] rounded-lg mb-4">
+            <span className="text-[#f5f5f5] font-semibold text-sm">BROADCAST MODE</span>
           </div>
           <h1 className="text-4xl font-bold text-[var(--black)] mb-2">
-            Broadcast Mode
+            Coming soon!
           </h1>
           <p className="text-gray-600 text-lg">
-            This page is under construction
-          </p>
-        </div>
-
-        {/* Placeholder content */}
-        <div className="bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg p-12 text-center">
-          <Calendar className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-          <h3 className="text-lg font-semibold text-gray-700 mb-2">Coming Soon</h3>
-          <p className="text-gray-500 max-w-md mx-auto">
-            Broadcast mode functionality is currently being developed. 
-            You'll be able to monitor real-time production progress and collaborate with your team.
+            Hopefully
           </p>
         </div>
         </div>

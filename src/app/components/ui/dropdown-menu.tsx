@@ -1,22 +1,46 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect, useRef } from 'react';
 
 interface DropdownMenuContextType {
   open: boolean;
   setOpen: (open: boolean) => void;
+  isControlled: boolean;
 }
 
 const DropdownMenuContext = createContext<DropdownMenuContextType | undefined>(undefined);
 
 interface DropdownMenuProps {
   children: React.ReactNode;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
 }
 
-export function DropdownMenu({ children }: DropdownMenuProps) {
-  const [open, setOpen] = useState(false);
+export function DropdownMenu({ children, open: controlledOpen, onOpenChange }: DropdownMenuProps) {
+  const [internalOpen, setInternalOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  
+  const isControlled = controlledOpen !== undefined;
+  const open = isControlled ? controlledOpen : internalOpen;
+  const setOpen = isControlled ? onOpenChange || (() => {}) : setInternalOpen;
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setOpen(false);
+      }
+    };
+
+    if (open) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [open, setOpen]);
 
   return (
-    <DropdownMenuContext.Provider value={{ open, setOpen }}>
-      <div className="relative inline-block text-left">
+    <DropdownMenuContext.Provider value={{ open, setOpen, isControlled }}>
+      <div ref={dropdownRef} className="relative inline-block text-left">
         {children}
       </div>
     </DropdownMenuContext.Provider>
@@ -81,18 +105,21 @@ export function DropdownMenuItem({ children, onClick, className = '' }: Dropdown
   const context = useContext(DropdownMenuContext);
   if (!context) throw new Error('DropdownMenuItem must be used within DropdownMenu');
 
-  const { setOpen } = context;
+  const { setOpen, isControlled } = context;
 
   const handleClick = () => {
     if (onClick) onClick();
-    setOpen(false);
+    // Only auto-close if not externally controlled
+    if (!isControlled) {
+      setOpen(false);
+    }
   };
 
   return (
     <button
       type="button"
       onClick={handleClick}
-      className={`block w-full px-4 py-2 text-sm text-left hover:bg-gray-100 dark:hover:bg-gray-700 ${className}`}
+      className={`block w-full px-4 py-2 text-sm text-left hover:bg-accent-green/10 ${className}`}
     >
       {children}
     </button>

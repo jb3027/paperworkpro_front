@@ -36,27 +36,13 @@ export default function EditModePage() {
           <div className="inline-block px-4 py-2 bg-[#0d9488]/20 rounded-lg mb-4">
             <span className="text-[#10b981] font-semibold text-sm">EDIT MODE</span>
           </div>
-          <h1 className="text-4xl font-bold text-[var(--black)] mb-2">
-            Edit Mode
-          </h1>
-          <p className="text-gray-600 text-lg">
-            This page is under construction
-          </p>
-        </div>
-
-        {/* Placeholder content */}
-        <div className="bg-white border border-gray-200 rounded-lg p-12 text-center shadow-sm">
-          <div className="max-w-md mx-auto">
-            <div className="w-16 h-16 bg-[#0d9488]/20 rounded-full flex items-center justify-center mx-auto mb-4">
-              <div className="w-8 h-8 border-4 border-[#0d9488] border-t-transparent rounded-full"></div>
-            </div>
-            <h2 className="text-2xl font-bold text-[var(--black)] mb-2">Coming Soon</h2>
+          <h2 className="text-2xl font-bold text-[var(--black)] mb-2">Coming Soon</h2>
             <p className="text-gray-600">
               Edit mode functionality will be available here
             </p>
-          </div>
         </div>
         </div>
+
       </div>
     </div>
   );
