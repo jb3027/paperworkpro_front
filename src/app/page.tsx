@@ -195,6 +195,58 @@ export default function Dashboard() {
     return list;
   }, [productions, selectedStatuses, sortBy, isAllSelected]);
 
+  // Status-driven color mapping aligned with CreateProductionModal
+  const getStatusColors = (status?: string) => {
+    const colorMap = {
+      pre_production: {
+        primary: '#065f46',
+        secondary: '#0d9488',
+        accent: '#35c29a',
+        background: '#073229',
+        text: '#fafaf9',
+        textSecondary: '#e2e8f0',
+        border: '#35c29a'
+      },
+      in_production: {
+        primary: '#7c2d12',
+        secondary: '#dc2626',
+        accent: '#f87171',
+        background: '#431407',
+        text: '#fef2f2',
+        textSecondary: '#fecaca',
+        border: '#f87171'
+      },
+      post_production: {
+        primary: '#9a3412',
+        secondary: '#ea580c',
+        accent: '#fb923c',
+        background: '#431407',
+        text: '#fff7ed',
+        textSecondary: '#fed7aa',
+        border: '#fb923c'
+      },
+      completed: {
+        primary: '#a16207',
+        secondary: '#eab308',
+        accent: '#fde047',
+        background: '#451a03',
+        text: '#fefce8',
+        textSecondary: '#fef3c7',
+        border: '#fde047'
+      },
+      archived: {
+        primary: '#0f766e',
+        secondary: '#14b8a6',
+        accent: '#5eead4',
+        background: '#042f2e',
+        text: '#f0fdfa',
+        textSecondary: '#ccfbf1',
+        border: '#5eead4'
+      }
+    } as const;
+    return colorMap[(status as keyof typeof colorMap) || 'pre_production'];
+  };
+
   if (isLoading) {
     return (
       <div className="min-h-screen bg-[#f5f5f5]">
@@ -220,60 +272,74 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100 relative overflow-hidden">
+      {/* Background Pattern */}
+      <div className="absolute inset-0 opacity-[0.02]">
+        <div className="absolute inset-0" style={{
+          backgroundImage: `radial-gradient(circle at 25% 25%, #35c29a 2px, transparent 2px),
+                           radial-gradient(circle at 75% 75%, #35c29a 2px, transparent 2px)`,
+          backgroundSize: '60px 60px'
+        }} />
+      </div>
 
-      <nav className="nav-toolbar">
+      <nav className="nav-toolbar-modern">
           <div className="toolbar-group left">
-            <span className="brand-text">PaperworkPRO</span>
+            <div className="brand-container">
+              <span className="brand-text-modern">PaperworkPRO</span>
+              <div className="brand-accent"></div>
+            </div>
           </div>
 
           <div className="toolbar-group right">
-            <div className="user-dropdown">
-              <span className="welcome-text">Welcome, {user?.full_name || 'User'}</span>
+            <div className="user-dropdown-modern">
+              <span className="welcome-text-modern">Welcome, {user?.full_name || 'User'}</span>
               <button 
                 ref={avatarButtonRef}
-                className="user-avatar-button"
+                className="user-avatar-button-modern"
                 onClick={handleAvatarClick}
               >
-                <div className="user-avatar">
+                <div className="user-avatar-modern">
                   {user?.full_name ? user.full_name.charAt(0).toUpperCase() : 'U'}
                 </div>
-                <ChevronDown className={`chevron ${isDropdownOpen ? 'open' : ''}`} />
+                <ChevronDown className={`chevron-modern ${isDropdownOpen ? 'open' : ''}`} />
               </button>
             </div>
           </div>
       </nav>
 
-      <div className="max-w-7xl mx-auto pt-32">
+      <div className="max-w-7xl mx-auto pt-40 px-6 relative z-10">
         {/* Header */}
-        <div className="mb-12">
-          <h1 className="text-4xl font-bold text-dark-green mb-6">
-            Your Productions
-          </h1>
-          <div className="flex justify-between items-center">
+        <div className="mb-8">
+          <div className="text-center mb-12">
+            <h1 className="text-5xl font-bold bg-gradient-to-r from-slate-800 via-slate-700 to-slate-800 bg-clip-text text-transparent mb-4 tracking-tight">
+              Your Productions
+            </h1>
+          </div>
+          
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-6">
             <Button 
               onClick={() => setIsCreateModalOpen(true)}
-              className="bg-gradient-to-r from-[#065f46] to-[#35c29a] hover:from-[#064e3b] hover:to-[#0f766e] text-[#fafaf9] px-6 py-3 flex items-center gap-2 transition-all duration-200"
+              className="bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-500 hover:from-emerald-700 hover:via-emerald-600 hover:to-teal-600 text-white px-8 py-4 flex items-center gap-3 transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-emerald-500/25 rounded-xl font-semibold text-base group"
             >
-              <Plus className="w-5 h-5" />
+              <Plus className="w-5 h-5 group-hover:rotate-90 transition-transform duration-300" />
               Create New Production
             </Button>
             
             <DropdownMenu open={isSortDropdownOpen} onOpenChange={setIsSortDropdownOpen}>
               <DropdownMenuTrigger asChild>
-                <Button className="bg-[#065f46] hover:bg-[#0f766e] text-[#fafaf9] flex items-center gap-2">
+                <Button className="bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 hover:border-slate-300 flex items-center gap-3 px-6 py-3 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 font-medium">
                   <SortAsc className="w-4 h-4" />
                   Sort by: {getSortLabel(sortBy)}
                   <ChevronDown className="w-4 h-4" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="bg-white border border-gray-200 rounded-md">
+              <DropdownMenuContent className="bg-white border border-slate-200 rounded-xl shadow-xl p-2 min-w-[200px]">
                 <DropdownMenuItem 
                   onClick={() => {
                     setSortBy('created');
                     setIsSortDropdownOpen(false);
                   }} 
-                  className="hover:bg-[#35c29a]/10"
+                  className="hover:bg-emerald-50 hover:text-emerald-700 rounded-lg px-3 py-2 cursor-pointer transition-colors duration-200"
                 >
                   Date Created (newest)
                 </DropdownMenuItem>
@@ -282,7 +348,7 @@ export default function Dashboard() {
                     setSortBy('start');
                     setIsSortDropdownOpen(false);
                   }} 
-                  className="hover:bg-[#35c29a]/10"
+                  className="hover:bg-emerald-50 hover:text-emerald-700 rounded-lg px-3 py-2 cursor-pointer transition-colors duration-200"
                 >
                   Start Date (earliest)
                 </DropdownMenuItem>
@@ -291,7 +357,7 @@ export default function Dashboard() {
                     setSortBy('name');
                     setIsSortDropdownOpen(false);
                   }} 
-                  className="hover:bg-[#35c29a]/10"
+                  className="hover:bg-emerald-50 hover:text-emerald-700 rounded-lg px-3 py-2 cursor-pointer transition-colors duration-200"
                 >
                   Name (A–Z)
                 </DropdownMenuItem>
@@ -301,35 +367,68 @@ export default function Dashboard() {
         </div>
 
         {/* Filter Section */}
-        <div className="mb-8">
-          <div className="flex flex-wrap items-center justify-between w-full gap-8">
-            <div className="flex items-center gap-2 cursor-pointer" onClick={() => toggleStatus('all')}>
-              <input 
-                type="checkbox" 
-                checked={isAllSelected} 
-                readOnly 
-                className="w-4 h-4 accent-[#10b981] cursor-pointer" 
-              />
-              <span className="text-sm text-gray-700 cursor-pointer">All</span>
-            </div>
-            {allStatuses.map(s => (
-              <div key={s} className="flex items-center gap-2 cursor-pointer" onClick={() => toggleStatus(s)}>
-                <input 
-                  type="checkbox" 
-                  checked={isAllSelected ? true : selectedStatuses.has(s)} 
-                  readOnly 
-                  className="w-4 h-4 accent-[#10b981] cursor-pointer" 
-                />
-                <span className="text-sm text-gray-700 cursor-pointer">{statusLabel(s)}</span>
+        <div className="mb-12">
+          <div className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-2xl p-4 shadow-sm mt-[-8]">
+            <div className="flex flex-wrap items-center gap-6">
+              <span className="text-sm font-semibold text-slate-700 uppercase tracking-wide">Filter by Status:</span>
+              <div className="flex flex-wrap items-center gap-4">
+                <div className="flex items-center gap-3 cursor-pointer group" onClick={() => toggleStatus('all')}>
+                  <div className="relative">
+                    <input 
+                      type="checkbox" 
+                      checked={isAllSelected} 
+                      readOnly 
+                      className="w-5 h-5 accent-emerald-500 cursor-pointer opacity-0 absolute" 
+                    />
+                    <div className={`w-5 h-5 rounded-md border-2 flex items-center justify-center transition-all duration-200 ${
+                      isAllSelected 
+                        ? 'bg-emerald-500 border-emerald-500' 
+                        : 'border-slate-300 group-hover:border-emerald-400'
+                    }`}>
+                      {isAllSelected && (
+                        <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                        </svg>
+                      )}
+                    </div>
+                  </div>
+                  <span className="text-sm font-medium text-slate-700 group-hover:text-emerald-600 transition-colors duration-200">All</span>
+                </div>
+                {allStatuses.map(s => (
+                  <div key={s} className="flex items-center gap-3 cursor-pointer group" onClick={() => toggleStatus(s)}>
+                    <div className="relative">
+                      <input 
+                        type="checkbox" 
+                        checked={isAllSelected ? true : selectedStatuses.has(s)} 
+                        readOnly 
+                        className="w-5 h-5 accent-emerald-500 cursor-pointer opacity-0 absolute" 
+                      />
+                      <div className={`w-5 h-5 rounded-md border-2 flex items-center justify-center transition-all duration-200 ${
+                        isAllSelected ? true : selectedStatuses.has(s)
+                          ? 'bg-emerald-500 border-emerald-500' 
+                          : 'border-slate-300 group-hover:border-emerald-400'
+                      }`}>
+                        {(isAllSelected ? true : selectedStatuses.has(s)) && (
+                          <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                          </svg>
+                        )}
+                      </div>
+                    </div>
+                    <span className="text-sm font-medium text-slate-700 group-hover:text-emerald-600 transition-colors duration-200">{statusLabel(s)}</span>
+                  </div>
+                ))}
               </div>
-            ))}
+            </div>
           </div>
         </div>
 
         {/* Productions Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {displayedProductions.map((production) => {
             const userHasAccess = hasAccess(production);
+            const colors = getStatusColors(production.status);
+            const displayStatus = ((production.status || '').split('_').map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')) || 'Unknown';
             
             return (
               <Link 
@@ -338,54 +437,67 @@ export default function Dashboard() {
                 className={!userHasAccess ? 'pointer-events-none' : ''}
               >
                 <motion.div
-                  whileHover={userHasAccess ? { scale: 1.02, y: -4 } : {}}
-                  transition={{ duration: 0.2 }}
+                  whileHover={userHasAccess ? { scale: 1.02, y: -8 } : {}}
+                  transition={{ duration: 0.3, ease: "easeOut" }}
+                  className="group"
                 >
-                  <Card className={`bg-[#064e3b] border-gray-800 p-6 transition-all duration-300 relative overflow-hidden ${
+                  <Card className={`bg-white/90 backdrop-blur-sm border border-slate-200 p-8 transition-all duration-300 relative overflow-hidden rounded-2xl shadow-sm hover:shadow-xl hover:shadow-slate-200/50 ${
                     userHasAccess 
-                      ? 'hover:border-[#0d9488] hover:shadow-lg hover:shadow-[#0d9488]/20 cursor-pointer' 
+                      ? 'hover:border-emerald-300 cursor-pointer group-hover:bg-white' 
                       : 'opacity-60 cursor-not-allowed'
                   }`}>
-                    {/* Color accent bar */}
-                    <div className={`absolute top-0 left-0 right-0 h-1 ${
-                      userHasAccess 
-                        ? 'bg-gradient-to-r from-[#0d9488] to-[#10b981]' 
-                        : 'bg-gradient-to-r from-[#991b1b] to-[#f59e0b]'
-                    }`} />
+                    {/* Status-colored accent bar */}
+                    <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${userHasAccess ? 'from-emerald-500 to-teal-500' : 'from-red-400 to-red-500'} rounded-t-2xl`} />
                     
-                    {/* Lock icon */}
-                    <div className="flex justify-between items-start mb-4">
-                      <div className="flex-1">
-                        <h3 className="text-xl font-bold text-[#fafaf9] mb-2">
+                    {/* Header with lock icon */}
+                    <div className="flex justify-between items-start mb-6">
+                      <div className="flex-1 pr-4">
+                        <h3 className="text-xl font-bold text-slate-800 mb-2 group-hover:text-slate-900 transition-colors duration-200">
                           {production.name}
                         </h3>
+                        <div 
+                          className={`inline-flex items-center px-2 py-0.5 rounded-md text-xs font-medium`} 
+                          style={{ 
+                            color: colors.text, 
+                            backgroundColor: colors.accent,
+                            border: `1px solid ${colors.border}`
+                          }}
+                        >
+                          {displayStatus}
+                        </div>
                       </div>
-                      <div className={`p-3 rounded-lg ${
+                      <div className={`p-3 rounded-xl transition-all duration-200 ${
                         userHasAccess 
-                          ? 'bg-[#0d9488]/20' 
-                          : 'bg-[#991b1b]/20'
+                          ? 'bg-emerald-50 group-hover:bg-emerald-100' 
+                          : 'bg-red-50'
                       }`}>
                         {userHasAccess ? (
-                          <LockOpen className={`w-6 h-6 text-[#10b981]`} />
+                          <LockOpen className="w-6 h-6 text-emerald-600" />
                         ) : (
-                          <Lock className={`w-6 h-6 text-[#991b1b]`} />
+                          <Lock className="w-6 h-6 text-red-600" />
                         )}
                       </div>
                     </div>
                     
-                    <p className="text-gray-400 text-sm mb-4 line-clamp-2">
+                    {/* Description */}
+                    <p className="text-slate-600 text-sm mb-6 line-clamp-3 leading-relaxed">
                       {production.description || 'No description available'}
                     </p>
                     
-                    <div className="flex items-center justify-between mt-6 pt-4 border-t border-gray-700">
-                      <span className="text-gray-500 text-xs">
-                        Created {production.created_date ? new Date(production.created_date).toLocaleDateString() : 'Unknown'}
-                      </span>
-                      <span className={`text-xs font-semibold ${
-                        userHasAccess ? 'text-[#10b981]' : 'text-[#991b1b]'
-                      }`}>
-                        {userHasAccess ? 'Access Granted' : 'No Access'}
-                      </span>
+                    {/* Footer */}
+                    <div className="flex items-center justify-between pt-6 border-t border-slate-100">
+                      <div className="flex items-center gap-2">
+                        <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
+                        <span className="text-xs font-medium text-slate-500">
+                          Created {production.created_date ? new Date(production.created_date).toLocaleDateString() : 'Unknown'}
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-1 text-xs text-slate-400">
+                        <span>View Details</span>
+                        <svg className="w-3 h-3 group-hover:translate-x-1 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                      </div>
                     </div>
                   </Card>
                 </motion.div>
@@ -395,8 +507,22 @@ export default function Dashboard() {
         </div>
 
         {productions.length === 0 && (
-          <div className="text-center py-20">
-            <p className="text-gray-400 text-lg">No productions available</p>
+          <div className="text-center py-24">
+            <div className="max-w-md mx-auto">
+              <div className="w-24 h-24 bg-gradient-to-br from-emerald-100 to-teal-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                <svg className="w-12 h-12 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-semibold text-slate-800 mb-2">No productions yet</h3>
+              <p className="text-slate-600 mb-6">Get started by creating your first production project</p>
+              <Button 
+                onClick={() => setIsCreateModalOpen(true)}
+                className="bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-700 hover:to-teal-600 text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
+              >
+                Create Your First Production
+              </Button>
+            </div>
           </div>
         )}
       </div>
@@ -412,11 +538,18 @@ export default function Dashboard() {
             zIndex: 10000
           }}
         >
-          <div className="dropdown-menu">
-            <Link href="/settings" className="dropdown-item">
+          <div className="dropdown-menu-modern">
+            <Link href="/settings" className="dropdown-item-modern">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
               Manage Account
             </Link>
-            <button className="dropdown-item logout-item">
+            <button className="dropdown-item-modern logout-item-modern">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+              </svg>
               Logout
             </button>
           </div>

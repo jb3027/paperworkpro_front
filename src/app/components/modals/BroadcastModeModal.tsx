@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/app/components/ui/dialog";
 import { Button } from "@/app/components/ui/button";
 import { Label } from "@/app/components/ui/label";
-import { X, Radio } from "lucide-react";
+import { X, Radio, Split, SplitSquareHorizontalIcon, SplitSquareVerticalIcon, StickyNote } from "lucide-react";
 import { motion } from "framer-motion";
 
 interface BroadcastModeData {
@@ -102,7 +102,7 @@ export default function BroadcastModeModal({ onClose, onSubmit, productionName, 
               </motion.div>
               <div>
                 <DialogTitle className="text-3xl font-bold text-white">Start Broadcast Session</DialogTitle>
-                <p className="text-gray-400 mt-1">Configure your live production session</p>
+                <p className="text-gray-400 mt-1">Configure your live paperwork view</p>
               </div>
             </div>
           </div>
@@ -175,19 +175,26 @@ export default function BroadcastModeModal({ onClose, onSubmit, productionName, 
             >
               <Label className="text-sm font-medium text-[#e2e8f0] mb-2 block">Display Type *</Label>
               <div className="grid grid-cols-3 gap-2">
-                {['1', '2', '3'].map((type) => (
+                {[
+                  { value: '1', label: 'Single View', icon: StickyNote },
+                  { value: '2', label: 'Split Across', icon: SplitSquareVerticalIcon },
+                  { value: '3', label: 'Split Down', icon: SplitSquareHorizontalIcon }
+                ].map(({ value, label, icon: Icon }) => (
                   <Button
-                    key={type}
+                    key={value}
                     type="button"
                     variant="outline"
-                    onClick={() => handleDisplayTypeSelect(type)}
+                    onClick={() => handleDisplayTypeSelect(value)}
                     className={`p-3 h-12 border transition-all duration-200 ${
-                      formData.displayType === type
+                      formData.displayType === value
                         ? 'border-[#991b1b] bg-[#991b1b]/10 text-[#991b1b]'
                         : 'border-gray-600 text-[#e2e8f0] hover:border-gray-500'
                     }`}
                   >
-                    {type}
+                    <div className="flex items-center justify-center gap-2">
+                      <Icon className="w-4 h-4" />
+                      <span className="text-sm">{label}</span>
+                    </div>
                   </Button>
                 ))}
               </div>
@@ -224,7 +231,7 @@ export default function BroadcastModeModal({ onClose, onSubmit, productionName, 
                     ) : (
                       <>
                         <Radio className="w-4 h-4" />
-                        Start Broadcast
+                        Go Live
                       </>
                     )}
                   </div>
