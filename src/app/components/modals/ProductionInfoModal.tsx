@@ -57,9 +57,9 @@ export default function ProductionInfoModal({ production, onClose }: ProductionI
 
   return (
     <Dialog open={true} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-md bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800">
         <DialogHeader>
-          <DialogTitle className="flex items-center gap-2 text-xl font-semibold text-slate-800">
+          <DialogTitle className="flex items-center gap-2 text-xl font-semibold text-zinc-900 dark:text-zinc-100">
             <FileVideo className="w-5 h-5 text-emerald-600" />
             Production Information
           </DialogTitle>
@@ -68,15 +68,15 @@ export default function ProductionInfoModal({ production, onClose }: ProductionI
         <div className="space-y-6">
           {/* Production Name */}
           <div>
-            <h3 className="text-lg font-semibold text-slate-800 mb-2">{production.name}</h3>
+            <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100 mb-2">{production.name}</h3>
             {production.description && (
-              <p className="text-slate-600 leading-relaxed">{production.description}</p>
+              <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed">{production.description}</p>
             )}
           </div>
 
           {/* Status */}
           <div className="flex items-center gap-3">
-            <div className="flex items-center gap-2 text-slate-600">
+            <div className="flex items-center gap-2 text-zinc-600 dark:text-zinc-400">
               <Clock className="w-4 h-4" />
               <span className="font-medium">Status:</span>
             </div>
@@ -87,17 +87,17 @@ export default function ProductionInfoModal({ production, onClose }: ProductionI
 
           {/* Start Date */}
           <div className="flex items-center gap-3">
-            <div className="flex items-center gap-2 text-slate-600">
+            <div className="flex items-center gap-2 text-zinc-600 dark:text-zinc-400">
               <Calendar className="w-4 h-4" />
               <span className="font-medium">Start Date:</span>
             </div>
-            <span className="text-slate-800">{formatDate(production.start_date)}</span>
+            <span className="text-zinc-900 dark:text-zinc-100">{formatDate(production.start_date)}</span>
           </div>
 
           {/* Members */}
           {production.members && production.members.length > 0 && (
             <div className="flex items-start gap-3">
-              <div className="flex items-center gap-2 text-slate-600 mt-1">
+              <div className="flex items-center gap-2 text-zinc-600 dark:text-zinc-400 mt-1">
                 <Users className="w-4 h-4" />
                 <span className="font-medium">Members:</span>
               </div>
@@ -105,7 +105,7 @@ export default function ProductionInfoModal({ production, onClose }: ProductionI
                 {production.members.map((member, index) => (
                   <Badge 
                     key={index}
-                    className="text-xs bg-slate-50 text-slate-700 border border-slate-200"
+                    className="text-xs bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-700"
                   >
                     {member}
                   </Badge>
@@ -115,8 +115,8 @@ export default function ProductionInfoModal({ production, onClose }: ProductionI
           )}
 
           {/* Production ID */}
-          <div className="pt-4 border-t border-slate-200">
-            <div className="text-xs text-slate-500">
+          <div className="pt-4 border-t border-zinc-200 dark:border-zinc-700">
+            <div className="text-xs text-zinc-500 dark:text-zinc-400">
               <span className="font-medium">Production ID:</span> {production.id || 'N/A'}
             </div>
           </div>

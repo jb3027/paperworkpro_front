@@ -119,21 +119,25 @@ export default function EditProductionModal({ initialData, onClose, onSubmit }: 
 
   return (
     <Dialog open onOpenChange={handleCancel}>
-      <div>
-        <DialogContent className="w-[475px] max-w-[95vw] max-h-[80vh] bg-[var(--white)] shadow-2xl transition-all duration-300 border-[var(--modal-border)] text-[var(--modal-text)]">
+      <DialogContent className="w-[475px] max-w-[95vw] max-h-[80vh] shadow-2xl transition-all duration-300 border-gray-200 text-gray-900 bg-white">
           <DialogHeader>
-            <div className="space-y-4 pb-6 border-b border-[var(--modal-accent)]/40">
+            <div className="space-y-4 pb-6 border-b border-gray-200">
               <div className="flex items-center gap-4">
                 <motion.div 
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   transition={{ delay: 0.1, type: "spring", stiffness: 200 }}
-                  className="p-3 rounded-xl shadow-lg bg-gradient-to-r from-[var(--modal-primary)] to-[var(--modal-secondary)]"
+                  className="p-3 rounded-xl shadow-lg"
+                  style={{
+                    background: `linear-gradient(135deg, ${currentColors.accent}, ${currentColors.secondary})`
+                  }}
                 >
                   <Film className="w-6 h-6 text-white" />
                 </motion.div>
                 <div>
-                  <DialogTitle className="text-3xl font-bold text-[var(--modal-text)]">Edit Production</DialogTitle>
+                  <DialogTitle className="text-3xl font-bold text-gray-900">
+                    Edit Production
+                  </DialogTitle>
                 </div>
               </div>
             </div>
@@ -159,7 +163,7 @@ export default function EditProductionModal({ initialData, onClose, onSubmit }: 
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
               >
-                <Label htmlFor="name" className="text-sm font-medium mb-2 block text-[var(--modal-text-secondary)]">Production Name *</Label>
+                <Label htmlFor="name" className="text-sm font-medium mb-2 block text-gray-700">Production Name *</Label>
                 <Input
                   id="name"
                   value={formData.name}
@@ -169,8 +173,8 @@ export default function EditProductionModal({ initialData, onClose, onSubmit }: 
                   }}
                   placeholder="Enter production name"
                   required
-                  className={`transition-all duration-200 bg-[var(--modal-text)] text-[var(--modal-bg)] ${
-                    errors.name ? 'border-red-500' : 'border-[var(--modal-accent)]/60'
+                  className={`transition-all duration-200 bg-white text-gray-900 ${
+                    errors.name ? 'border-red-500' : 'border-gray-300'
                   }`}
                 />
                 {errors.name && (
@@ -183,14 +187,14 @@ export default function EditProductionModal({ initialData, onClose, onSubmit }: 
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
               >
-                <Label htmlFor="description" className="text-sm font-medium mb-2 block text-[var(--modal-text-secondary)]">Description</Label>
+                <Label htmlFor="description" className="text-sm font-medium mb-2 block text-gray-700">Description</Label>
                 <Textarea
                   id="description"
                   value={formData.description || ""}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                   placeholder="Brief description of the production, including genre, storyline, or key details..."
                   rows={3}
-                  className="transition-all duration-200 resize-none bg-[var(--modal-text)] text-[var(--modal-bg)] border-[var(--modal-accent)]/60"
+                  className="transition-all duration-200 resize-none bg-white text-gray-900 border-gray-300"
                 />
               </motion.div>
 
@@ -201,13 +205,13 @@ export default function EditProductionModal({ initialData, onClose, onSubmit }: 
                 className="grid grid-cols-1 md:grid-cols-2 gap-6"
               >
                 <div>
-                  <Label className="text-sm font-medium mb-2 block text-[var(--modal-text-secondary)]">Status</Label>
+                  <Label className="text-sm font-medium mb-2 block text-gray-700">Status</Label>
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <Button 
                         type="button"
                         variant="outline" 
-                        className="justify-between w-50 transition-all duration-200 bg-[var(--modal-text)] text-[var(--modal-bg)] border-[var(--modal-accent)]/60"
+                        className="justify-between w-50 transition-all duration-200 bg-white text-gray-900 border-gray-300"
                       >
                         <div className="flex items-center">
                           {formData.status ? formatStatusLabel(formData.status) : 'Select status'}
@@ -215,10 +219,10 @@ export default function EditProductionModal({ initialData, onClose, onSubmit }: 
                         <ChevronDown className="ml-2 h-4 w-4" />
                       </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent className="min-w-full !left-0 !origin-top-left !right-auto bg-[var(--modal-text)] text-[var(--modal-bg)] border-[var(--modal-accent)]/60">
+                    <DropdownMenuContent className="min-w-full !left-0 !origin-top-left !right-auto bg-white text-gray-900 border-gray-300">
                       <DropdownMenuItem 
                         onClick={() => setFormData({ ...formData, status: 'pre_production' })}
-                        className={`transition-all duration-200 hover:bg-[#35c29a]/20 ${formData.status === 'pre_production' ? 'bg-[var(--modal-accent)]/20' : ''}`}
+                        className={`transition-all duration-200 hover:bg-[#35c29a]/20 ${formData.status === 'pre_production' ? 'bg-[#35c29a]/20' : ''}`}
                       >
                         <div className="flex items-center gap-2">
                           <div className="w-2 h-2 rounded-full bg-[#35c29a]"></div>
@@ -227,7 +231,7 @@ export default function EditProductionModal({ initialData, onClose, onSubmit }: 
                       </DropdownMenuItem>
                       <DropdownMenuItem 
                         onClick={() => setFormData({ ...formData, status: 'in_production' })}
-                        className={`transition-all duration-200 hover:bg-[#dc2626]/20 ${formData.status === 'in_production' ? 'bg-[var(--modal-accent)]/20' : ''}`}
+                        className={`transition-all duration-200 hover:bg-[#dc2626]/20 ${formData.status === 'in_production' ? 'bg-[#dc2626]/20' : ''}`}
                       >
                         <div className="flex items-center gap-2">
                           <div className="w-2 h-2 rounded-full bg-[#dc2626]"></div>
@@ -236,7 +240,7 @@ export default function EditProductionModal({ initialData, onClose, onSubmit }: 
                       </DropdownMenuItem>
                       <DropdownMenuItem 
                         onClick={() => setFormData({ ...formData, status: 'post_production' })}
-                        className={`transition-all duration-200 hover:bg-[#ea580c]/20 ${formData.status === 'post_production' ? 'bg-[var(--modal-accent)]/20' : ''}`}
+                        className={`transition-all duration-200 hover:bg-[#ea580c]/20 ${formData.status === 'post_production' ? 'bg-[#ea580c]/20' : ''}`}
                       >
                         <div className="flex items-center gap-2">
                           <div className="w-2 h-2 rounded-full bg-[#ea580c]"></div>
@@ -245,7 +249,7 @@ export default function EditProductionModal({ initialData, onClose, onSubmit }: 
                       </DropdownMenuItem>
                       <DropdownMenuItem 
                         onClick={() => setFormData({ ...formData, status: 'completed' })}
-                        className={`transition-all duration-200 hover:bg-[#eab308]/20 ${formData.status === 'completed' ? 'bg-[var(--modal-accent)]/20' : ''}`}
+                        className={`transition-all duration-200 hover:bg-[#eab308]/20 ${formData.status === 'completed' ? 'bg-[#eab308]/20' : ''}`}
                       >
                         <div className="flex items-center gap-2">
                           <div className="w-2 h-2 rounded-full bg-[#eab308]"></div>
@@ -254,7 +258,7 @@ export default function EditProductionModal({ initialData, onClose, onSubmit }: 
                       </DropdownMenuItem>
                       <DropdownMenuItem 
                         onClick={() => setFormData({ ...formData, status: 'archived' })}
-                        className={`transition-all duration-200 hover:bg-[#14b8a6]/20 ${formData.status === 'archived' ? 'bg-[var(--modal-accent)]/20' : ''}`}
+                        className={`transition-all duration-200 hover:bg-[#14b8a6]/20 ${formData.status === 'archived' ? 'bg-[#14b8a6]/20' : ''}`}
                       >
                         <div className="flex items-center gap-2">
                           <div className="w-2 h-2 rounded-full bg-[#14b8a6]"></div>
@@ -266,22 +270,22 @@ export default function EditProductionModal({ initialData, onClose, onSubmit }: 
                 </div>
 
                 <div>
-                  <Label htmlFor="start_date" className="text-sm font-medium mb-2 block text-[var(--modal-text-secondary)]">Start Date</Label>
+                  <Label htmlFor="start_date" className="text-sm font-medium mb-2 block text-gray-700">Start Date</Label>
                   <div className="relative">
-                    <Calendar className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[var(--modal-accent)]/80" />
+                    <Calendar className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
                     <Input
                       id="start_date"
                       type="date"
                       value={formData.start_date || ""}
                       onChange={(e) => setFormData({ ...formData, start_date: e.target.value })}
-                      className="pl-10 transition-all duration-200 bg-[var(--modal-text)] text-[var(--modal-bg)] border-[var(--modal-accent)]/60"
+                      className="pl-10 transition-all duration-200 bg-white text-gray-900 border-gray-300"
                     />
                   </div>
                 </div>
               </motion.div>
             </div>
 
-            <div className="pt-6 border-t border-[var(--modal-accent)]/40">
+            <div className="pt-6 border-t border-gray-200">
               <DialogFooter>
                 <div className="flex gap-3 w-full">
                   <Button 
@@ -289,14 +293,17 @@ export default function EditProductionModal({ initialData, onClose, onSubmit }: 
                     variant="outline" 
                     onClick={handleCancel}
                     disabled={isSubmitting}
-                    className="flex-1 transition-all duration-200 disabled:opacity-50 border-[var(--modal-accent)]/60 text-[var(--modal-text-secondary)] bg-transparent"
+                    className="flex-1 transition-all duration-200 disabled:opacity-50 border-gray-300 text-gray-600 bg-transparent"
                   >
                     Cancel
                   </Button>
                   <Button 
                     type="submit" 
                     disabled={isSubmitting || !formData.name.trim()}
-                    className="flex-1 text-white transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed bg-gradient-to-r from-[var(--modal-primary)] to-[var(--modal-secondary)]"
+                    className="flex-1 text-white transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                    style={{
+                      background: `linear-gradient(135deg, ${currentColors.accent}, ${currentColors.secondary})`
+                    }}
                   >
                     <div className="flex items-center gap-2">
                       {isSubmitting ? (
@@ -317,7 +324,6 @@ export default function EditProductionModal({ initialData, onClose, onSubmit }: 
             </div>
           </form>
         </DialogContent>
-      </div>
     </Dialog>
   );
 }

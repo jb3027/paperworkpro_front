@@ -3,13 +3,14 @@
 import * as React from "react"
 import { useEffect, useMemo, useState } from "react"
 import { useParams } from "next/navigation"
-import { ChevronRight, ChevronLeft } from "lucide-react"
+import { ChevronRight, ChevronLeft, ArrowLeft } from "lucide-react"
 import {
   IconDashboard,
   IconHelp,
   IconListDetails,
   IconSettings,
 } from "@tabler/icons-react"
+import Link from "next/link"
 
 import { NavMain } from "@/components/nav-main"
 import { NavSecondary } from "@/components/nav-secondary"
@@ -99,6 +100,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent className="mt-10 gap-5">
+        <div className="px-2 mb-4">
+          <Link href="/" className="flex items-center gap-2 text-black hover:text-gray-700 transition-colors duration-200">
+            <ArrowLeft className="w-4 h-4" />
+            <span className="text-sm font-medium">Back to Home</span>
+          </Link>
+        </div>
         <NavMain items={navMainItems} />
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>

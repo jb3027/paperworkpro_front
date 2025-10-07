@@ -19,7 +19,7 @@ export default function BroadcastModePage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f5f5f5]]">
+    <div className="min-h-screen bg-[var(--white)]">
       <SidebarProvider>
         <AppSidebar variant="inset" />
         <SidebarInset className="md:peer-data-[variant=inset]:m-0 md:peer-data-[variant=inset]:ml-0 md:peer-data-[variant=inset]:rounded-none md:peer-data-[variant=inset]:shadow-none">

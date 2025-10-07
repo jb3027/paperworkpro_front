@@ -88,9 +88,9 @@ export default function BroadcastModeModal({ onClose, onSubmit, productionName, 
 
   return (
     <Dialog open onOpenChange={handleCancel}>
-      <DialogContent className="bg-[#0f1f0f] border-2 border-accent-green text-[#fafaf9] max-w-lg max-h-[80vh] shadow-2xl">
+      <DialogContent className="bg-white border-gray-200 text-gray-900 max-w-lg max-h-[80vh] shadow-2xl">
         <DialogHeader>
-          <div className="space-y-4 pb-6 border-b border-gray-700">
+          <div className="space-y-4 pb-6 border-b border-gray-200">
             <div className="flex items-center gap-4">
               <motion.div 
                 initial={{ scale: 0 }}
@@ -101,8 +101,8 @@ export default function BroadcastModeModal({ onClose, onSubmit, productionName, 
                 <Radio className="w-6 h-6 text-white" />
               </motion.div>
               <div>
-                <DialogTitle className="text-3xl font-bold text-white">Start Broadcast Session</DialogTitle>
-                <p className="text-gray-400 mt-1">Configure your live paperwork view</p>
+                <DialogTitle className="text-3xl font-bold text-gray-900">Start Broadcast Session</DialogTitle>
+                <p className="text-gray-600 mt-1">Configure your live paperwork view</p>
               </div>
             </div>
           </div>
@@ -131,7 +131,7 @@ export default function BroadcastModeModal({ onClose, onSubmit, productionName, 
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
             >
-              <div className="text-lg font-semibold text-[#dc2626] py-1">
+              <div className="text-lg font-semibold text-red-600 py-1">
                 Your role: {userRole}
               </div>
             </motion.div>
@@ -142,17 +142,17 @@ export default function BroadcastModeModal({ onClose, onSubmit, productionName, 
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
             >
-              <Label className="text-sm font-medium text-[#e2e8f0] mb-2 block">Select Paperwork Access</Label>
+              <Label className="text-sm font-medium text-gray-700 mb-2 block">Select Paperwork Access</Label>
               <div className="space-y-2">
                 {['Script', 'Running Order', 'Camera Cards', 'Floorplan'].map((paperwork) => (
-                  <div key={paperwork} className="flex items-center justify-between p-2 bg-[#0f1f0f] rounded-lg border border-gray-600">
-                    <span className="text-sm text-[#e2e8f0]">{paperwork}</span>
+                  <div key={paperwork} className="flex items-center justify-between p-2 bg-gray-50 rounded-lg border border-gray-300">
+                    <span className="text-sm text-gray-900">{paperwork}</span>
                     <Button
                       type="button"
                       variant="ghost"
                       onClick={() => handlePaperworkToggle(paperwork)}
                       className={`w-10 h-5 rounded-full transition-all duration-200 ${
-                        formData.selectedPaperwork.includes(paperwork) ? 'bg-[#991b1b]' : 'bg-gray-600'
+                        formData.selectedPaperwork.includes(paperwork) ? 'bg-red-600' : 'bg-gray-300'
                       }`}
                     >
                       <div className={`w-3 h-3 rounded-full bg-white transition-transform duration-200 ${
@@ -173,7 +173,7 @@ export default function BroadcastModeModal({ onClose, onSubmit, productionName, 
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
             >
-              <Label className="text-sm font-medium text-[#e2e8f0] mb-2 block">Display Type *</Label>
+              <Label className="text-sm font-medium text-gray-700 mb-2 block">Display Type *</Label>
               <div className="grid grid-cols-3 gap-2">
                 {[
                   { value: '1', label: 'Single View', icon: StickyNote },
@@ -187,8 +187,8 @@ export default function BroadcastModeModal({ onClose, onSubmit, productionName, 
                     onClick={() => handleDisplayTypeSelect(value)}
                     className={`p-3 h-12 border transition-all duration-200 ${
                       formData.displayType === value
-                        ? 'border-[#991b1b] bg-[#991b1b]/10 text-[#991b1b]'
-                        : 'border-gray-600 text-[#e2e8f0] hover:border-gray-500'
+                        ? 'border-red-600 bg-red-50 text-red-600'
+                        : 'border-gray-300 text-gray-700 hover:border-gray-400'
                     }`}
                   >
                     <div className="flex items-center justify-center gap-2">
@@ -205,7 +205,7 @@ export default function BroadcastModeModal({ onClose, onSubmit, productionName, 
           </div>
 
           {/* Footer */}
-          <div className="pt-6 border-t border-gray-700">
+          <div className="pt-6 border-t border-gray-200">
             <DialogFooter>
               <div className="flex gap-3 w-full">
                 <Button 
@@ -213,7 +213,7 @@ export default function BroadcastModeModal({ onClose, onSubmit, productionName, 
                   variant="outline" 
                   onClick={handleCancel}
                   disabled={isSubmitting}
-                  className="flex-1 border-gray-600 text-[#e2e8f0] hover:bg-gray-700 hover:text-white transition-all duration-200 disabled:opacity-50"
+                  className="flex-1 border-gray-300 text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-all duration-200 disabled:opacity-50"
                 >
                   Cancel
                 </Button>

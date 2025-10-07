@@ -27,7 +27,7 @@ function ModeToggle() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button  size="icon">
+        <Button size="icon" className="bg-white hover:bg-gray-50">
           <Sun className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
           <Moon className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
           <span className="sr-only">Toggle theme</span>
@@ -288,38 +288,27 @@ export default function Dashboard() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-[#f5f5f5]">
-        <nav className="nav-toolbar">
+      <div className="min-h-screen bg-white">
+        <nav className="nav-toolbar-modern">
           <div className="toolbar-group left">
-            <span className="brand-text">PaperworkPRO</span>
+            <span className="brand-text-modern">PaperworkPRO</span>
           </div>
           <div className="toolbar-group right">
-            <div className="user-dropdown">
-              <span className="welcome-text">Loading...</span>
-              <button className="user-avatar-button">
-                <div className="user-avatar">U</div>
-                <ChevronDown className="chevron" />
-              </button>
+            <div className="user-dropdown-modern">
+              <span className="welcome-text-modern">Loading...</span>
+              <div className="ml-5"><ModeToggle /></div>
             </div>
           </div>
         </nav>
         <div className="max-w-7xl mx-auto pt-32 flex items-center justify-center">
-          <div className="text-dark-green text-xl">Loading...</div>
+          <div className="text-slate-700 text-xl font-semibold">Loading...</div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100 relative overflow-hidden">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-[0.02] pointer-events-none">
-        <div className="absolute inset-0" style={{
-          backgroundImage: `radial-gradient(circle at 25% 25%, #35c29a 2px, transparent 2px),
-                           radial-gradient(circle at 75% 75%, #35c29a 2px, transparent 2px)`,
-          backgroundSize: '60px 60px'
-        }} />
-      </div>
+    <div className="min-h-screen bg-white relative overflow-hidden">
 
       {/* Top nav without sidebar: brand on the left */}
       <nav className="nav-toolbar-modern">

@@ -2,19 +2,17 @@
 
 import React, { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { ProductionService, FileService, UserService } from "@/lib/services";
-import { Production, File, User } from "@/lib/mockData";
-import { ArrowLeft, FileVideo, Plus, Pencil, Info } from "lucide-react";
+import { ProductionService, FileService } from "@/lib/services";
+import { Production, File } from "@/lib/mockData";
+import { FileVideo, Plus, Pencil } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ProductionNavbar } from "@/components/ui/production-navbar";
-import { AppSidebar } from "@/components/app-sidebar";
-import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
+import { ProductionLayout } from "@/components/ui/production-layout";
+import { useUser } from "@/hooks/use-user";
 import BroadcastModeModal from "@/app/components/modals/BroadcastModeModal";
 import EditProductionModal from "@/app/components/modals/EditProductionModal";
-import ProductionInfoModal from "@/app/components/modals/ProductionInfoModal";
-import Link from "next/link";
 
 
 export default function ProductionDetailPage() {
@@ -24,11 +22,10 @@ export default function ProductionDetailPage() {
 
   const [production, setProduction] = useState<Production | null>(null);
   const [files, setFiles] = useState<File[]>([]);
-  const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [showBroadcastModal, setShowBroadcastModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
-  const [showInfoModal, setShowInfoModal] = useState(false);
+  const { user } = useUser();
 
   
 
@@ -38,13 +35,11 @@ export default function ProductionDetailPage() {
 
   const loadData = async () => {
     try {
-      const [userData, productionsData, filesData] = await Promise.all([
-        UserService.me(),
+      const [productionsData, filesData] = await Promise.all([
         ProductionService.getAll(),
         FileService.getByProduction(productionId)
       ]);
 
-      setUser(userData);
       const prod = productionsData.find(p => p.id === productionId);
       setProduction(prod || null);
       setFiles(filesData);
@@ -90,14 +85,6 @@ export default function ProductionDetailPage() {
     setShowEditModal(false);
   };
 
-  const handleOpenInfo = () => {
-    setShowInfoModal(true);
-  };
-
-  const handleCloseInfo = () => {
-    setShowInfoModal(false);
-  };
-
   const handleSubmitEdit = async (data: { name: string; description?: string; status?: 'pre_production' | 'in_production' | 'post_production' | 'completed' | 'archived'; start_date?: string; color?: string }) => {
     if (!production) return;
     try {
@@ -115,78 +102,83 @@ export default function ProductionDetailPage() {
     }
   };
 
+  // Status-driven color mapping
+  const getStatusColors = (status?: string) => {
+    const colorMap = {
+      pre_production: {
+        primary: '#065f46',
+        secondary: '#0d9488',
+        accent: '#35c29a',
+        background: '#073229',
+        text: '#fafaf9',
+        textSecondary: '#e2e8f0',
+        border: '#35c29a'
+      },
+      in_production: {
+        primary: '#7c2d12',
+        secondary: '#dc2626',
+        accent: '#f87171',
+        background: '#431407',
+        text: '#fef2f2',
+        textSecondary: '#fecaca',
+        border: '#f87171'
+      },
+      post_production: {
+        primary: '#9a3412',
+        secondary: '#ea580c',
+        accent: '#fb923c',
+        background: '#431407',
+        text: '#fff7ed',
+        textSecondary: '#fed7aa',
+        border: '#fb923c'
+      },
+      completed: {
+        primary: '#a16207',
+        secondary: '#eab308',
+        accent: '#fde047',
+        background: '#451a03',
+        text: '#fefce8',
+        textSecondary: '#fef3c7',
+        border: '#fde047'
+      },
+      archived: {
+        primary: '#0f766e',
+        secondary: '#14b8a6',
+        accent: '#5eead4',
+        background: '#042f2e',
+        text: '#f0fdfa',
+        textSecondary: '#ccfbf1',
+        border: '#5eead4'
+      }
+    } as const;
+    return colorMap[(status as keyof typeof colorMap) || 'pre_production'];
+  };
+
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100 relative overflow-hidden">
-        {/* Background Pattern */}
-        <div className="absolute inset-0 opacity-[0.02]">
-          <div className="absolute inset-0" style={{
-            backgroundImage: `radial-gradient(circle at 25% 25%, #35c29a 2px, transparent 2px),
-                             radial-gradient(circle at 75% 75%, #35c29a 2px, transparent 2px)`,
-            backgroundSize: '60px 60px'
-          }} />
-        </div>
-
-        <SidebarProvider style={{ "--sidebar-width": "calc(var(--spacing) * 72)" } as React.CSSProperties}>
-          <AppSidebar variant="inset" />
-          <SidebarInset>
-            {/* Production Navbar */}
-            <ProductionNavbar productionId={productionId} />
-        
-        <div className="p-6 relative z-10">
-          <div className="max-w-7xl mx-auto pt-40 flex items-center justify-center min-h-[60vh]">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-gradient-to-br from-emerald-100 to-teal-100 rounded-2xl flex items-center justify-center mx-auto mb-6 animate-pulse">
-                <FileVideo className="w-8 h-8 text-emerald-600" />
-              </div>
-              <div className="text-slate-700 text-xl font-semibold">Loading production...</div>
-            </div>
-          </div>
-        </div>
-          </SidebarInset>
-        </SidebarProvider>
-      </div>
+      <ProductionLayout>
+        <div></div>
+      </ProductionLayout>
     );
   }
 
   if (!production) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100 relative overflow-hidden">
-        {/* Background Pattern */}
-        <div className="absolute inset-0 opacity-[0.02]">
-          <div className="absolute inset-0" style={{
-            backgroundImage: `radial-gradient(circle at 25% 25%, #35c29a 2px, transparent 2px),
-                             radial-gradient(circle at 75% 75%, #35c29a 2px, transparent 2px)`,
-            backgroundSize: '60px 60px'
-          }} />
-        </div>
-
-        <SidebarProvider style={{ "--sidebar-width": "calc(var(--spacing) * 72)" } as React.CSSProperties}>
-          <AppSidebar variant="inset" />
-          <SidebarInset>
-            {/* Production Navbar */}
-            <ProductionNavbar productionId={productionId} />
-        
-        <div className="p-6 relative z-10">
-          <div className="max-w-7xl mx-auto pt-40 flex items-center justify-center min-h-[60vh]">
+      <ProductionLayout>
+        <ProductionNavbar productionId={productionId} />
+        <div className="p-6 relative z-10 pt-24">
+          <div className="max-w-7xl mx-auto flex items-center justify-center min-h-[60vh]">
             <div className="text-center">
               <div className="w-20 h-20 bg-gradient-to-br from-red-100 to-orange-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
                 <FileVideo className="w-10 h-10 text-red-600" />
               </div>
               <h1 className="text-2xl font-bold text-slate-800 mb-2">Production not found</h1>
               <p className="text-slate-600 mb-6">The production you&apos;re looking for doesn&apos;t exist or has been removed</p>
-              <Link href="/">
-                <Button className="bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-700 hover:to-teal-600 text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300">
-                  Back to Dashboard
-                </Button>
-              </Link>
             </div>
           </div>
         </div>
-          </SidebarInset>
-        </SidebarProvider>
-      </div>
+      </ProductionLayout>
     );
   }
 
@@ -194,24 +186,10 @@ export default function ProductionDetailPage() {
 
   if (!userHasAccess) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100 relative overflow-hidden">
-        {/* Background Pattern */}
-        <div className="absolute inset-0 opacity-[0.02]">
-          <div className="absolute inset-0" style={{
-            backgroundImage: `radial-gradient(circle at 25% 25%, #35c29a 2px, transparent 2px),
-                             radial-gradient(circle at 75% 75%, #35c29a 2px, transparent 2px)`,
-            backgroundSize: '60px 60px'
-          }} />
-        </div>
-
-        <SidebarProvider style={{ "--sidebar-width": "calc(var(--spacing) * 72)" } as React.CSSProperties}>
-          <AppSidebar variant="inset" />
-          <SidebarInset>
-            {/* Production Navbar */}
-            <ProductionNavbar productionId={productionId} />
-        
-        <div className="p-6 relative z-10">
-          <div className="max-w-7xl mx-auto pt-40 flex items-center justify-center min-h-[60vh]">
+      <ProductionLayout>
+        <ProductionNavbar productionId={productionId} />
+        <div className="p-6 relative z-10 pt-24">
+          <div className="max-w-7xl mx-auto flex items-center justify-center min-h-[60vh]">
             <div className="text-center">
               <div className="w-20 h-20 bg-gradient-to-br from-red-100 to-orange-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
                 <svg className="w-10 h-10 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -220,48 +198,36 @@ export default function ProductionDetailPage() {
               </div>
               <h1 className="text-2xl font-bold text-slate-800 mb-2">Access Denied</h1>
               <p className="text-slate-600 mb-6">You don&apos;t have permission to view this production</p>
-              <Link href="/">
-                <Button className="bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-700 hover:to-teal-600 text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300">
-                  Back to Dashboard
-                </Button>
-              </Link>
             </div>
           </div>
         </div>
-          </SidebarInset>
-        </SidebarProvider>
-      </div>
+      </ProductionLayout>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100 relative overflow-hidden">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-[0.02] pointer-events-none">
-        <div className="absolute inset-0" style={{
-          backgroundImage: `radial-gradient(circle at 25% 25%, #35c29a 2px, transparent 2px),
-                           radial-gradient(circle at 75% 75%, #35c29a 2px, transparent 2px)`,
-          backgroundSize: '60px 60px'
-        }} />
-      </div>
+    <ProductionLayout>
 
-      <SidebarProvider
-        style={{ "--sidebar-width": "calc(var(--spacing) * 72)" } as React.CSSProperties}
-      >
-        <AppSidebar variant="inset" />
-        <SidebarInset className="md:peer-data-[variant=inset]:m-0 md:peer-data-[variant=inset]:ml-0 md:peer-data-[variant=inset]:rounded-none md:peer-data-[variant=inset]:shadow-none">
-          {/* Production Navbar */}
-          <ProductionNavbar productionId={productionId} onOpenBroadcast={handleBroadcastMode} />
-      
-          <div className="p-6 relative z-10">
+      {/* Production Navbar */}
+      <ProductionNavbar productionId={productionId} onOpenBroadcast={handleBroadcastMode} />
+
+      <div className="p-6 relative z-10">
 
         {/* Header with mode navigation */}
         <div className="mb-12">
-          <div className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-2xl p-8 shadow-sm">
+          <div className="bg-[var(--white)] p-8" style={{ boxShadow: 'none', border: 'none' }}>
             <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
               <div className="flex items-center gap-4">
-                <div className="p-4 rounded-xl bg-gradient-to-br from-emerald-100 to-teal-100 shadow-sm">
-                  <FileVideo className="w-10 h-10 text-emerald-600" />
+                <div 
+                  className="p-4 rounded-xl shadow-sm"
+                  style={{
+                    background: `linear-gradient(135deg, ${getStatusColors(production.status).accent}20, ${getStatusColors(production.status).secondary}20)`
+                  }}
+                >
+                  <FileVideo 
+                    className="w-10 h-10" 
+                    style={{ color: getStatusColors(production.status).accent }}
+                  />
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
@@ -276,14 +242,6 @@ export default function ProductionDetailPage() {
                       aria-label="Edit production"
                     >
                       <Pencil className="w-5 h-5" />
-                    </Button>
-                    <Button 
-                    size="icon"
-                    onClick={handleOpenInfo}
-                    className="mb-2 text-slate-600 hover:text-slate-800 hover:bg-slate-100 rounded-lg"
-                    aria-label="Production Info"
-                    >
-                      <Info className="w-5 h-5" />
                     </Button>
                   </div>
                   <p className="text-slate-600 text-lg leading-relaxed">
@@ -359,9 +317,7 @@ export default function ProductionDetailPage() {
             )}
           </div>
         </div>
-          </div>
-        </SidebarInset>
-      </SidebarProvider>
+      </div>
 
       {/* Broadcast Mode Modal */}
       {showBroadcastModal && production && (
@@ -387,14 +343,6 @@ export default function ProductionDetailPage() {
           onSubmit={handleSubmitEdit}
         />
       )}
-
-      {/* Production Info Modal */}
-      {showInfoModal && production && (
-        <ProductionInfoModal
-          production={production}
-          onClose={handleCloseInfo}
-        />
-      )}
-    </div>
+    </ProductionLayout>
   );
 }
