@@ -14,15 +14,13 @@ interface CreateProductionData {
   start_date?: string;
   color?: string;
 }
-import { Lock, LockOpen, ChevronDown, Plus, SortAsc, ExternalLink, Github } from 'lucide-react';
+import { Lock, LockOpen, ChevronDown, Plus, SortAsc } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import CreateProductionModal from '@/app/components/modals/createProductionModal';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { RepositoryButton, RepositoryGrid } from '@/components/RepositoryButton';
-import { getRepositoriesByType, getAllRepositories } from '@/lib/repositories';
 
 function ModeToggle() {
   const { setTheme } = useTheme();
@@ -345,22 +343,13 @@ export default function Dashboard() {
           </div>
           
           <div className="flex flex-col sm:flex-row justify-between items-center gap-6">
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Button 
-                onClick={() => setIsCreateModalOpen(true)}
-                className="bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-500 hover:from-emerald-700 hover:via-emerald-600 hover:to-teal-600 text-white px-8 py-4 flex items-center gap-3 transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-emerald-500/25 rounded-xl font-semibold text-base group"
-              >
-                <Plus className="w-5 h-5 group-hover:rotate-90 transition-transform duration-300" />
-                Create New Production
-              </Button>
-              
-              {getRepositoriesByType('backend').map((repo) => (
-                <RepositoryButton 
-                  key={repo.url} 
-                  repository={repo} 
-                />
-              ))}
-            </div>
+            <Button 
+              onClick={() => setIsCreateModalOpen(true)}
+              className="bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-500 hover:from-emerald-700 hover:via-emerald-600 hover:to-teal-600 text-white px-8 py-4 flex items-center gap-3 transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-emerald-500/25 rounded-xl font-semibold text-base group"
+            >
+              <Plus className="w-5 h-5 group-hover:rotate-90 transition-transform duration-300" />
+              Create New Production
+            </Button>
             
             <DropdownMenu open={isSortDropdownOpen} onOpenChange={setIsSortDropdownOpen}>
               <DropdownMenuTrigger asChild>
@@ -562,21 +551,6 @@ export default function Dashboard() {
             </div>
           </div>
         )}
-
-        {/* Related Repositories Section */}
-        <div className="mt-16">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-[var(--dark-green)] mb-4">
-              Related Repositories
-            </h2>
-            <p className="text-slate-600 max-w-2xl mx-auto">
-              Access other parts of the PaperworkPRO ecosystem
-            </p>
-          </div>
-          
-          <RepositoryGrid repositories={getAllRepositories()} />
-        </div>
-
         </div>
       </div>
 
@@ -599,24 +573,6 @@ export default function Dashboard() {
               </svg>
               Manage Account
             </Link>
-            
-            {/* Repository Links */}
-            <div className="border-t border-gray-200 my-2"></div>
-            <div className="px-3 py-2">
-              <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Repositories</p>
-              {getAllRepositories().map((repo) => (
-                <button
-                  key={repo.url}
-                  onClick={() => window.open(repo.url, '_blank')}
-                  className="dropdown-item-modern text-sm"
-                >
-                  <Github className="w-4 h-4" />
-                  {repo.name}
-                </button>
-              ))}
-            </div>
-            
-            <div className="border-t border-gray-200 my-2"></div>
             <button className="dropdown-item-modern logout-item-modern">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
