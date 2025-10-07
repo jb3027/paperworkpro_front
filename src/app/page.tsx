@@ -4,6 +4,12 @@ import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import { UserService, ProductionService } from '@/lib/services';
 import { User, Production } from '@/lib/mockData';
+import { Moon, Sun } from "lucide-react"
+import { useTheme } from "next-themes"
+
+// Sidebar removed from main page
+
+
 
 interface CreateProductionData {
   name: string;
@@ -282,32 +288,29 @@ export default function Dashboard() {
         }} />
       </div>
 
+      {/* Top nav without sidebar: brand on the left */}
       <nav className="nav-toolbar-modern">
-          <div className="toolbar-group left">
-            <div className="brand-container">
-              <span className="brand-text-modern">PaperworkPRO</span>
-              <div className="brand-accent"></div>
-            </div>
+        <div className="toolbar-group left">
+          <span className="brand-text-modern">PaperworkPRO</span>
+        </div>
+        <div className="toolbar-group right">
+          <div className="user-dropdown-modern">
+            <span className="welcome-text-modern">Welcome, {user?.full_name || 'User'}</span>
+            <button 
+              ref={avatarButtonRef}
+              className="user-avatar-button-modern"
+              onClick={handleAvatarClick}
+            >
+              <div className="user-avatar-modern">
+                {user?.full_name ? user.full_name.charAt(0).toUpperCase() : 'U'}
+              </div>
+              <ChevronDown className={`chevron-modern ${isDropdownOpen ? 'open' : ''}`} />
+            </button>
           </div>
-
-          <div className="toolbar-group right">
-            <div className="user-dropdown-modern">
-              <span className="welcome-text-modern">Welcome, {user?.full_name || 'User'}</span>
-              <button 
-                ref={avatarButtonRef}
-                className="user-avatar-button-modern"
-                onClick={handleAvatarClick}
-              >
-                <div className="user-avatar-modern">
-                  {user?.full_name ? user.full_name.charAt(0).toUpperCase() : 'U'}
-                </div>
-                <ChevronDown className={`chevron-modern ${isDropdownOpen ? 'open' : ''}`} />
-              </button>
-            </div>
-          </div>
+        </div>
       </nav>
-
-      <div className="max-w-7xl mx-auto pt-40 px-6 relative z-10">
+      <div className="flex flex-col overflow-y-auto">
+        <div className="max-w-7xl mx-auto px-6 pb-8 relative z-10 flex-1">
         {/* Header */}
         <div className="mb-8">
           <div className="text-center mb-12">
@@ -525,6 +528,7 @@ export default function Dashboard() {
             </div>
           </div>
         )}
+        </div>
       </div>
 
       {/* Portal Dropdown */}

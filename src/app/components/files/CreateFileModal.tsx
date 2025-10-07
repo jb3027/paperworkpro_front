@@ -6,9 +6,16 @@ import { Textarea } from "@/app/components/ui/textarea";
 import { Label } from "@/app/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/app/components/ui/select";
 
+interface FileFormData {
+  name: string;
+  file_type: string;
+  notes: string;
+  category: string;
+}
+
 interface CreateFileModalProps {
   onClose: () => void;
-  onSubmit: (data: any) => void;
+  onSubmit: (data: FileFormData) => void;
 }
 
 export default function CreateFileModal({ onClose, onSubmit }: CreateFileModalProps) {

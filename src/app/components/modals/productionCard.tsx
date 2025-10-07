@@ -7,8 +7,8 @@ import { motion } from "framer-motion";
 import { Calendar, Users, ChevronRight } from "lucide-react";
 import { format } from "date-fns";
 import { Badge } from "@/app/components/ui/badge";
-import { Production } from "@/app/components/entities/Production";
-import { User } from "@/app/components/entities/User";
+import { ProductionData } from "@/app/components/entities/Production";
+import { UserData } from "@/app/components/entities/User";
 
 const statusColors = {
   pre_production: "bg-[#f59e0b]/20 text-[#f59e0b] border-[#f59e0b]/30",
@@ -19,8 +19,8 @@ const statusColors = {
 };
 
 interface ProductionCardProps {
-  production: Production;
-  user: User | null;
+  production: ProductionData;
+  user: UserData | null;
 }
 
 export default function ProductionCard({ production }: ProductionCardProps) {

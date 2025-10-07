@@ -5,8 +5,16 @@ import { Card } from "../ui/card";
 import { Upload, Loader2 } from "lucide-react";
 import { Button } from "@/app/components/ui/button";
 
+interface UploadedFile {
+  name: string;
+  file_url: string;
+  file_type: string;
+  file_size: number;
+  mime_type: string;
+}
+
 interface FileUploadZoneProps {
-  onFilesUploaded: (files: any[]) => void;
+  onFilesUploaded: (files: UploadedFile[]) => void;
   productionId: string | null;
 }
 

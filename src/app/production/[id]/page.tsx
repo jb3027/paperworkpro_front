@@ -9,6 +9,8 @@ import { Button } from "@/app/components/ui/button";
 import { Card } from "@/app/components/ui/card";
 import { Badge } from "@/app/components/ui/badge";
 import { ProductionNavbar } from "@/app/components/ui/production-navbar";
+import { AppSidebar } from "@/components/app-sidebar";
+import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import BroadcastModeModal from "@/app/components/modals/BroadcastModeModal";
 import EditProductionModal from "@/app/components/modals/EditProductionModal";
 import ProductionInfoModal from "@/app/components/modals/ProductionInfoModal";
@@ -67,7 +69,7 @@ export default function ProductionDetailPage() {
     setShowBroadcastModal(true);
   };
 
-  const handleBroadcastSubmit = (formData: any) => {
+  const handleBroadcastSubmit = (formData: { selectedPaperwork: string[]; displayType: string }) => {
     console.log("Starting broadcast session:", formData);
     // TODO: Implement actual broadcast session creation
     setShowBroadcastModal(false);
@@ -95,7 +97,7 @@ export default function ProductionDetailPage() {
     setShowInfoModal(false);
   };
 
-  const handleSubmitEdit = async (data: any) => {
+  const handleSubmitEdit = async (data: { name: string; description?: string; status?: 'pre_production' | 'in_production' | 'post_production' | 'completed' | 'archived'; start_date?: string; color?: string }) => {
     if (!production) return;
     try {
       const updated = await ProductionService.update(production.id!, {
@@ -125,8 +127,11 @@ export default function ProductionDetailPage() {
           }} />
         </div>
 
-        {/* Production Navbar */}
-        <ProductionNavbar productionId={productionId} />
+        <SidebarProvider style={{ "--sidebar-width": "calc(var(--spacing) * 72)" } as React.CSSProperties}>
+          <AppSidebar variant="inset" />
+          <SidebarInset>
+            {/* Production Navbar */}
+            <ProductionNavbar productionId={productionId} />
         
         <div className="p-6 relative z-10">
           <div className="max-w-7xl mx-auto pt-40 flex items-center justify-center min-h-[60vh]">
@@ -138,6 +143,8 @@ export default function ProductionDetailPage() {
             </div>
           </div>
         </div>
+          </SidebarInset>
+        </SidebarProvider>
       </div>
     );
   }
@@ -154,8 +161,11 @@ export default function ProductionDetailPage() {
           }} />
         </div>
 
-        {/* Production Navbar */}
-        <ProductionNavbar productionId={productionId} />
+        <SidebarProvider style={{ "--sidebar-width": "calc(var(--spacing) * 72)" } as React.CSSProperties}>
+          <AppSidebar variant="inset" />
+          <SidebarInset>
+            {/* Production Navbar */}
+            <ProductionNavbar productionId={productionId} />
         
         <div className="p-6 relative z-10">
           <div className="max-w-7xl mx-auto pt-40 flex items-center justify-center min-h-[60vh]">
@@ -164,7 +174,7 @@ export default function ProductionDetailPage() {
                 <FileVideo className="w-10 h-10 text-red-600" />
               </div>
               <h1 className="text-2xl font-bold text-slate-800 mb-2">Production not found</h1>
-              <p className="text-slate-600 mb-6">The production you're looking for doesn't exist or has been removed</p>
+              <p className="text-slate-600 mb-6">The production you&apos;re looking for doesn&apos;t exist or has been removed</p>
               <Link href="/">
                 <Button className="bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-700 hover:to-teal-600 text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300">
                   Back to Dashboard
@@ -173,6 +183,8 @@ export default function ProductionDetailPage() {
             </div>
           </div>
         </div>
+          </SidebarInset>
+        </SidebarProvider>
       </div>
     );
   }
@@ -191,8 +203,11 @@ export default function ProductionDetailPage() {
           }} />
         </div>
 
-        {/* Production Navbar */}
-        <ProductionNavbar productionId={productionId} />
+        <SidebarProvider style={{ "--sidebar-width": "calc(var(--spacing) * 72)" } as React.CSSProperties}>
+          <AppSidebar variant="inset" />
+          <SidebarInset>
+            {/* Production Navbar */}
+            <ProductionNavbar productionId={productionId} />
         
         <div className="p-6 relative z-10">
           <div className="max-w-7xl mx-auto pt-40 flex items-center justify-center min-h-[60vh]">
@@ -203,7 +218,7 @@ export default function ProductionDetailPage() {
                 </svg>
               </div>
               <h1 className="text-2xl font-bold text-slate-800 mb-2">Access Denied</h1>
-              <p className="text-slate-600 mb-6">You don't have permission to view this production</p>
+              <p className="text-slate-600 mb-6">You don&apos;t have permission to view this production</p>
               <Link href="/">
                 <Button className="bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-700 hover:to-teal-600 text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300">
                   Back to Dashboard
@@ -212,6 +227,8 @@ export default function ProductionDetailPage() {
             </div>
           </div>
         </div>
+          </SidebarInset>
+        </SidebarProvider>
       </div>
     );
   }
@@ -227,10 +244,15 @@ export default function ProductionDetailPage() {
         }} />
       </div>
 
-      {/* Production Navbar */}
-      <ProductionNavbar productionId={productionId} />
+      <SidebarProvider
+        style={{ "--sidebar-width": "calc(var(--spacing) * 72)" } as React.CSSProperties}
+      >
+        <AppSidebar variant="inset" />
+        <SidebarInset className="md:peer-data-[variant=inset]:m-0 md:peer-data-[variant=inset]:ml-0 md:peer-data-[variant=inset]:rounded-none md:peer-data-[variant=inset]:shadow-none">
+          {/* Production Navbar */}
+          <ProductionNavbar productionId={productionId} onOpenBroadcast={handleBroadcastMode} />
       
-      <div className="p-6 relative z-10">
+          <div className="p-6 relative z-10">
         <div className="max-w-7xl mx-auto pt-20">
           {/* Back button */}
           <Link href="/">
@@ -239,6 +261,7 @@ export default function ProductionDetailPage() {
               Back to Dashboard
             </Button>
           </Link>
+        </div>
 
         {/* Header with mode navigation */}
         <div className="mb-12">
@@ -275,26 +298,6 @@ export default function ProductionDetailPage() {
                     {production.description || 'No description available'}
                   </p>
                 </div>
-              </div>
-              {/* Mode Navigation */}
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Link href={`/production/${productionId}/edit-mode`}>
-                  <Button className="bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-500 hover:from-emerald-700 hover:via-emerald-600 hover:to-teal-600 text-white px-8 py-4 text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl hover:shadow-emerald-500/25 transition-all duration-300 group">
-                    <svg className="w-5 h-5 mr-2 group-hover:rotate-12 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                    </svg>
-                    Create Paperwork
-                  </Button>
-                </Link>
-                
-                <Button 
-                  onClick={handleBroadcastMode}
-                  className="bg-gradient-to-r from-red-600 via-red-500 to-orange-500 hover:from-red-700 hover:via-red-600 hover:to-orange-600 text-white px-8 py-4 text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl hover:shadow-red-500/25 transition-all duration-300 group">
-                  <svg className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                  </svg>
-                  Broadcast Mode
-                </Button>
               </div>
             </div>
           </div>
@@ -364,8 +367,9 @@ export default function ProductionDetailPage() {
             )}
           </div>
         </div>
-        </div>
-      </div>
+          </div>
+        </SidebarInset>
+      </SidebarProvider>
 
       {/* Broadcast Mode Modal */}
       {showBroadcastModal && production && (

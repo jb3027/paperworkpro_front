@@ -50,7 +50,7 @@ export default function EditModePage() {
           <h3 className="text-lg font-semibold text-gray-700 mb-2">Coming Soon</h3>
           <p className="text-gray-500 max-w-md mx-auto">
             Edit mode functionality is currently being developed. 
-            You'll be able to manage production details, settings, and more.
+            You&apos;ll be able to manage production details, settings, and more.
           </p>
         </div>
         </div>

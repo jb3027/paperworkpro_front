@@ -2,7 +2,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { FileText, Film, Calendar, DollarSign, FileCheck, ClipboardList, ShieldCheck, Receipt, MoreVertical, Trash2, ExternalLink } from "lucide-react";
 import { format } from "date-fns";
-import { File } from "@/app/components/entities/File";
+import { FileData } from "@/app/components/entities/File";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,7 +12,9 @@ import {
 import { Button } from "@/app/components/ui/button";
 import { Badge } from "@/app/components/ui/badge";
 
-const fileTypeIcons = {
+type FileType = 'contract' | 'script' | 'schedule' | 'budget' | 'call_sheet' | 'release_form' | 'permit' | 'invoice' | 'other';
+
+const fileTypeIcons: Record<FileType, { icon: React.ComponentType<React.SVGProps<SVGSVGElement>>; color: string; bg: string }> = {
   contract: { icon: FileCheck, color: "text-[#f59e0b]", bg: "bg-[#f59e0b]/20" },
   script: { icon: Film, color: "text-[#0d9488]", bg: "bg-[#0d9488]/20" },
   schedule: { icon: Calendar, color: "text-[#10b981]", bg: "bg-[#10b981]/20" },
@@ -25,7 +27,7 @@ const fileTypeIcons = {
 };
 
 interface FileCardProps {
-  file: File;
+  file: FileData;
   editMode: boolean;
   viewMode: 'grid' | 'list';
   onDelete: (fileId: string) => void;
