@@ -1,12 +1,12 @@
 "use client";
 
 import React, { useMemo, useState } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/app/components/ui/dialog";
-import { Button } from "@/app/components/ui/button";
-import { Input } from "@/app/components/ui/input";
-import { Textarea } from "@/app/components/ui/textarea";
-import { Label } from "@/app/components/ui/label";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/app/components/ui/dropdown-menu";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { X, ChevronDown, Film, Calendar } from "lucide-react";
 import { motion } from "framer-motion";
 
@@ -119,18 +119,8 @@ export default function EditProductionModal({ initialData, onClose, onSubmit }: 
 
   return (
     <Dialog open onOpenChange={handleCancel}>
-      <div 
-        style={{
-          '--modal-bg': currentColors.background,
-          '--modal-border': currentColors.accent,
-          '--modal-text': currentColors.text,
-          '--modal-text-secondary': currentColors.textSecondary,
-          '--modal-primary': currentColors.primary,
-          '--modal-secondary': currentColors.secondary,
-          '--modal-accent': currentColors.accent
-        } as React.CSSProperties}
-      >
-        <DialogContent className="w-[475px] max-w-[95vw] max-h-[80vh] shadow-2xl transition-all duration-300 bg-[var(--modal-bg)] border-[var(--modal-border)] text-[var(--modal-text)]">
+      <div>
+        <DialogContent className="w-[475px] max-w-[95vw] max-h-[80vh] bg-[var(--white)] shadow-2xl transition-all duration-300 border-[var(--modal-border)] text-[var(--modal-text)]">
           <DialogHeader>
             <div className="space-y-4 pb-6 border-b border-[var(--modal-accent)]/40">
               <div className="flex items-center gap-4">

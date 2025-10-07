@@ -7,10 +7,6 @@ import { User, Production } from '@/lib/mockData';
 import { Moon, Sun } from "lucide-react"
 import { useTheme } from "next-themes"
 
-// Sidebar removed from main page
-
-
-
 interface CreateProductionData {
   name: string;
   description?: string;
@@ -19,12 +15,47 @@ interface CreateProductionData {
   color?: string;
 }
 import { Lock, LockOpen, ChevronDown, Plus, SortAsc } from 'lucide-react';
-import { Card } from '@/app/components/ui/card';
-import { Button } from '@/app/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import CreateProductionModal from '@/app/components/modals/createProductionModal';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/app/components/ui/dropdown-menu';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+
+function ModeToggle() {
+  const { setTheme } = useTheme();
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button  size="icon">
+          <Sun className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
+          <Moon className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
+          <span className="sr-only">Toggle theme</span>
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="center" sideOffset={16} className="!min-w-0 w-fit">
+        <DropdownMenuItem
+          className="hover:bg-[var(--accent-green)] hover:text-white focus:bg-[var(--accent-green)] focus:text-white"
+          onClick={() => setTheme("light")}
+        >
+          Light
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          className="hover:bg-[var(--accent-green)] hover:text-white focus:bg-[var(--accent-green)] focus:text-white"
+          onClick={() => setTheme("dark")}
+        >
+          Dark
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          className="hover:bg-[var(--accent-green)] hover:text-white focus:bg-[var(--accent-green)] focus:text-white"
+          onClick={() => setTheme("system")}
+        >
+          System
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
 
 export default function Dashboard() {
   const [user, setUser] = useState<User | null>(null);
@@ -111,7 +142,9 @@ export default function Dashboard() {
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as HTMLElement;
-      if (!target.closest('.user-dropdown') && !target.closest('.dropdown-menu-portal')) {
+      const clickedInsideAvatarArea = !!target.closest('.user-dropdown-modern') || !!target.closest('.user-avatar-button');
+      const clickedInsidePortal = !!target.closest('.dropdown-menu-portal');
+      if (!clickedInsideAvatarArea && !clickedInsidePortal) {
         setIsDropdownOpen(false);
       }
     };
@@ -280,7 +313,7 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100 relative overflow-hidden">
       {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-[0.02]">
+      <div className="absolute inset-0 opacity-[0.02] pointer-events-none">
         <div className="absolute inset-0" style={{
           backgroundImage: `radial-gradient(circle at 25% 25%, #35c29a 2px, transparent 2px),
                            radial-gradient(circle at 75% 75%, #35c29a 2px, transparent 2px)`,
@@ -298,23 +331,24 @@ export default function Dashboard() {
             <span className="welcome-text-modern">Welcome, {user?.full_name || 'User'}</span>
             <button 
               ref={avatarButtonRef}
-              className="user-avatar-button-modern"
+              className="user-avatar-button"
               onClick={handleAvatarClick}
             >
-              <div className="user-avatar-modern">
+              <div className="user-avatar">
                 {user?.full_name ? user.full_name.charAt(0).toUpperCase() : 'U'}
-              </div>
-              <ChevronDown className={`chevron-modern ${isDropdownOpen ? 'open' : ''}`} />
-            </button>
+              </div>              
+              </button>
           </div>
+          <div className="ml-5"><ModeToggle /></div>
         </div>
       </nav>
-      <div className="flex flex-col overflow-y-auto">
+
+      <div className="flex flex-col overflow-y-auto mt-30">
         <div className="max-w-7xl mx-auto px-6 pb-8 relative z-10 flex-1">
         {/* Header */}
         <div className="mb-8">
           <div className="text-center mb-12">
-            <h1 className="text-5xl font-bold bg-gradient-to-r from-slate-800 via-slate-700 to-slate-800 bg-clip-text text-transparent mb-4 tracking-tight">
+            <h1 className="text-5xl font-bold bg-clip-text text-[var(--dark-green)] mb-4 tracking-tight">
               Your Productions
             </h1>
           </div>

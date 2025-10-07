@@ -3,7 +3,7 @@ import React, { useState, useCallback } from "react";
 import { UploadFile } from "@/integrations/Core";
 import { Card } from "../ui/card";
 import { Upload, Loader2 } from "lucide-react";
-import { Button } from "@/app/components/ui/button";
+import { Button } from "@/components/ui/button";
 
 interface UploadedFile {
   name: string;

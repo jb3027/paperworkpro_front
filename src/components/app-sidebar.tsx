@@ -1,29 +1,18 @@
 "use client"
 
 import * as React from "react"
+import { useEffect, useMemo, useState } from "react"
+import { useParams } from "next/navigation"
 import { ChevronRight, ChevronLeft } from "lucide-react"
 import {
-  IconCamera,
-  IconChartBar,
   IconDashboard,
-  IconDatabase,
-  IconFileAi,
-  IconFileDescription,
-  IconFileWord,
-  IconFolder,
   IconHelp,
-  IconInnerShadowTop,
   IconListDetails,
-  IconReport,
-  IconSearch,
   IconSettings,
-  IconUsers,
 } from "@tabler/icons-react"
 
-import { NavDocuments } from "@/components/nav-documents"
 import { NavMain } from "@/components/nav-main"
 import { NavSecondary } from "@/components/nav-secondary"
-import { NavUser } from "@/components/nav-user"
 import {
   Sidebar,
   SidebarContent,
@@ -34,29 +23,13 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import { useSidebar } from "@/components/ui/sidebar"
+import { ProductionService } from "@/lib/services"
 
 const data = {
-  navMain: [
-    {
-      title: "Dashboard",
-      url: "/",
-      icon: IconDashboard,
-    },
-    {
-      title: "Team",
-      url: "/team",
-      icon: IconListDetails,
-    },
-  ],
   navSecondary: [
-    { /* Accessibility features ! */
-      title: "Settings",
-      url: "#",
-      icon: IconSettings,
-    },
     { /* Tutorials / contact email */
       title: "Help",
-      url: "#",
+      url: "mailto:contact@gaialith.com",
       icon: IconHelp,
     },
   ],
@@ -64,6 +37,46 @@ const data = {
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { state, toggleSidebar } = useSidebar()
+  const params = useParams()
+  const [dashboardUrl, setDashboardUrl] = useState<string>("/")
+
+  useEffect(() => {
+    const currentId = (params as any)?.id
+    if (currentId) {
+      setDashboardUrl(`/production/${currentId}`)
+      return
+    }
+    let isMounted = true
+    ProductionService.getAll()
+      .then((productions) => {
+        if (!isMounted) return
+        const first = productions?.[0]
+        setDashboardUrl(first?.id ? `/production/${first.id}` : "/")
+      })
+      .catch(() => {
+        if (!isMounted) return
+        setDashboardUrl("/")
+      })
+    return () => {
+      isMounted = false
+    }
+  }, [params])
+
+  const navMainItems = useMemo(
+    () => [
+      {
+        title: "Dashboard",
+        url: dashboardUrl,
+        icon: IconDashboard,
+      },
+      {
+        title: "Team",
+        url: "/team",
+        icon: IconListDetails,
+      },
+    ],
+    [dashboardUrl]
+  )
 
   return (
     <>
@@ -75,7 +88,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               asChild
               className="data-[slot=sidebar-menu-button]:!p-1.5"
             >
-              <a href="/" className="flex items-center gap-2">
+              <a href="/" className="flex items-center gap-2 mt-2">
                 <div className="brand-container">
                   <span className="brand-text-modern">PaperworkPRO</span>
                   <div className="brand-accent"></div>
@@ -85,8 +98,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
-      <SidebarContent>
-        <NavMain items={data.navMain} />
+      <SidebarContent className="mt-10 gap-5">
+        <NavMain items={navMainItems} />
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
     </Sidebar>

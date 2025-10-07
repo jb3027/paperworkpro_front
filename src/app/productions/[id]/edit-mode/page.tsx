@@ -3,8 +3,8 @@
 import React from "react";
 import { useParams } from "next/navigation";
 import { ArrowLeft, Calendar } from "lucide-react";
-import { Button } from "@/app/components/ui/button";
-import { ProductionNavbar } from "@/app/components/ui/production-navbar";
+import { Button } from "@/components/ui/button";
+import { ProductionNavbar } from "@/components/ui/production-navbar";
 import Link from "next/link";
 
 export default function EditModePage() {

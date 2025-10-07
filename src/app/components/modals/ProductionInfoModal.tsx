@@ -2,8 +2,8 @@
 
 import React from "react";
 import { Production } from "@/lib/mockData";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/app/components/ui/dialog";
-import { Badge } from "@/app/components/ui/badge";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Badge } from "@/components/ui/badge";
 import { Calendar, Users, FileVideo, Clock } from "lucide-react";
 
 interface ProductionInfoModalProps {

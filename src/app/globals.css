@@ -1,16 +1,36 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@import "./themes.css"; /* centralize theme tokens (light/dark) */
 
-@variant dark (&:is(.dark *));
+@custom-variant dark (&:where(.dark, .dark *));
 
 @layer base {
   * {
     border-color: hsl(var(--border));
   }
-  body {
-    background-color: hsl(var(--background));
-    color: hsl(var(--foreground));
-  } 
+}
+
+/* Map Tailwind theme color tokens to our CSS variables */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
 }
 
 @layer utilities {
@@ -43,30 +63,14 @@
   --orange: #d44a23;
   --yellow: #ffb000;
 
+  --dark-dark-green: #03120f;
   --dark-green: #073229; 
   --mid-green: #0a4a3a; 
   --accent-green: #35c29a; 
   --accent-green-hover: #2bc198; 
-  --sidebar: hsl(0 0% 98%); 
-  --sidebar-foreground: hsl(240 5.3% 26.1%); 
-  --sidebar-primary: hsl(240 5.9% 10%); 
-  --sidebar-primary-foreground: hsl(0 0% 98%); 
-  --sidebar-accent: hsl(240 4.8% 95.9%); 
-  --sidebar-accent-foreground: hsl(240 5.9% 10%); 
-  --sidebar-border: hsl(220 13% 91%); 
-  --sidebar-ring: hsl(217.2 91.2% 59.8%); 
-  
-  /* Tailwind CSS custom properties */
-  --background: 0 0% 100%;
-  --foreground: 240 10% 3.9%;
-  --border: 240 5.9% 90%;
-  --ring: 240 5.9% 10%;
 }
 
-body {
-  background: var(--white);
-  color: var(--black);
-}
+/* Body colors are driven by theme tokens in themes.css via @layer base */
 
 .nav-toolbar {
   display: flex;
@@ -328,20 +332,6 @@ body {
   background-color: rgba(52, 211, 153, 0.1);
 }
 
-.user-avatar-modern {
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
-  background: linear-gradient(135deg, #35c29a, #0d9488);
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  font-size: 1.1rem;
-  box-shadow: 0 4px 12px rgba(52, 211, 153, 0.3);
-}
-
 .chevron-modern {
   width: 18px;
   height: 18px;
@@ -408,7 +398,16 @@ body {
 
 /* Smooth transitions for all interactive elements */
 * {
-  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Avoid unintended slide-in effects from transform transitions globally */
+.dropdown-menu-portal, [data-slot="dropdown-menu-content"], [data-slot="dropdown-menu-sub-content"] {
+  transition: none;
+}
+
+.dropdown-item:hover {
+  background-color: var(--accent-green) !important;
 }
 
 /* Enhanced Sidebar Animations */
@@ -473,22 +472,7 @@ body {
   background: #94a3b8;
 }
 
-.dark {
-  --sidebar: hsl(240 5.9% 10%);
-  --sidebar-foreground: hsl(240 4.8% 95.9%);
-  --sidebar-primary: hsl(224.3 76.3% 48%);
-  --sidebar-primary-foreground: hsl(0 0% 100%);
-  --sidebar-accent: hsl(240 3.7% 15.9%);
-  --sidebar-accent-foreground: hsl(240 4.8% 95.9%);
-  --sidebar-border: hsl(240 3.7% 15.9%);
-  --sidebar-ring: hsl(217.2 91.2% 59.8%); 
-  
-  /* Dark mode Tailwind CSS custom properties */
-  --background: 240 10% 3.9%;
-  --foreground: 0 0% 98%;
-  --border: 240 3.7% 15.9%;
-  --ring: 240 4.8% 95.9%;
-}
+/* Dark-mode variable overrides are centralized in themes.css */
 
 @theme inline {
   --color-sidebar: var(--sidebar);

@@ -5,16 +5,17 @@ import { useParams, useRouter } from "next/navigation";
 import { ProductionService, FileService, UserService } from "@/lib/services";
 import { Production, File, User } from "@/lib/mockData";
 import { ArrowLeft, FileVideo, Plus, Pencil, Info } from "lucide-react";
-import { Button } from "@/app/components/ui/button";
-import { Card } from "@/app/components/ui/card";
-import { Badge } from "@/app/components/ui/badge";
-import { ProductionNavbar } from "@/app/components/ui/production-navbar";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { ProductionNavbar } from "@/components/ui/production-navbar";
 import { AppSidebar } from "@/components/app-sidebar";
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import BroadcastModeModal from "@/app/components/modals/BroadcastModeModal";
 import EditProductionModal from "@/app/components/modals/EditProductionModal";
 import ProductionInfoModal from "@/app/components/modals/ProductionInfoModal";
 import Link from "next/link";
+
 
 export default function ProductionDetailPage() {
   const params = useParams();
@@ -236,7 +237,7 @@ export default function ProductionDetailPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100 relative overflow-hidden">
       {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-[0.02]">
+      <div className="absolute inset-0 opacity-[0.02] pointer-events-none">
         <div className="absolute inset-0" style={{
           backgroundImage: `radial-gradient(circle at 25% 25%, #35c29a 2px, transparent 2px),
                            radial-gradient(circle at 75% 75%, #35c29a 2px, transparent 2px)`,
@@ -253,15 +254,6 @@ export default function ProductionDetailPage() {
           <ProductionNavbar productionId={productionId} onOpenBroadcast={handleBroadcastMode} />
       
           <div className="p-6 relative z-10">
-        <div className="max-w-7xl mx-auto pt-20">
-          {/* Back button */}
-          <Link href="/">
-            <Button variant="ghost" className="text-slate-600 hover:text-slate-800 hover:bg-slate-100 mb-8 transition-all duration-200 rounded-xl px-4 py-2">
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Back to Dashboard
-            </Button>
-          </Link>
-        </div>
 
         {/* Header with mode navigation */}
         <div className="mb-12">

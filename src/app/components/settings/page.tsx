@@ -5,7 +5,7 @@ import { createPortal } from 'react-dom';
 import { UserService } from '@/lib/services';
 import { User } from '@/lib/mockData';
 import { ChevronDown } from 'lucide-react';
-import { Card } from '@/app/components/ui/card';
+import { Card } from '@/components/ui/card';
 import Link from 'next/link';
 
 export default function Settings() {
@@ -60,14 +60,14 @@ export default function Settings() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-dark-green flex items-center justify-center">
-        <div className="text-[#fafaf9] text-xl">Loading...</div>
+      <div className="min-h-screen flex items-center justify-center bg-white text-zinc-900 dark:bg-[var(--dark-dark-green)] dark:text-zinc-100">
+        <div className="text-xl">Loading...</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#f5f5f5' }}>
+    <div className="min-h-screen bg-white text-zinc-900 dark:bg-[var(--dark-dark-green)] dark:text-zinc-100">
       <nav className="nav-toolbar">
           <div className="toolbar-group left">
             <span className="brand-text">PaperworkPRO</span>

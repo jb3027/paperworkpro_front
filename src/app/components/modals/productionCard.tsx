@@ -6,7 +6,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { Calendar, Users, ChevronRight } from "lucide-react";
 import { format } from "date-fns";
-import { Badge } from "@/app/components/ui/badge";
+import { Badge } from "@/components/ui/badge";
 import { ProductionData } from "@/app/components/entities/Production";
 import { UserData } from "@/app/components/entities/User";
 

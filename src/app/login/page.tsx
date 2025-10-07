@@ -4,10 +4,10 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { UserService } from '@/lib/services';
 import { mockUsers } from '@/lib/mockData';
-import { Button } from '@/app/components/ui/button';
-import { Card } from '@/app/components/ui/card';
-import { Input } from '@/app/components/ui/input';
-import { Label } from '@/app/components/ui/label';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { Folder, Users, Shield } from 'lucide-react';
 
 export default function LoginPage() {
@@ -39,7 +39,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-dark-green flex items-center justify-center p-6">
+    <div className="min-h-screen flex items-center justify-center p-6 bg-white text-zinc-900 dark:bg-[var(--dark-dark-green)] dark:text-zinc-100">
       <div className="w-full max-w-md">
         {/* Header */}
         <div className="text-center mb-8">
@@ -51,10 +51,10 @@ export default function LoginPage() {
         </div>
 
         {/* Login Form */}
-        <Card className="bg-[#1e293b] border-gray-800 p-8">
+        <Card className="p-8 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800">
           <form onSubmit={handleLogin} className="space-y-6">
             <div className="space-y-2">
-              <Label htmlFor="email" className="text-[#fafaf9]">Email</Label>
+              <Label htmlFor="email" className="dark:text-zinc-100">Email</Label>
               <Input
                 id="email"
                 type="email"
@@ -62,12 +62,12 @@ export default function LoginPage() {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your email"
                 required
-                className="bg-dark-green border-gray-800 text-[#fafaf9]"
+                className="bg-white text-zinc-900 border-zinc-300 dark:bg-zinc-900 dark:text-zinc-100 dark:border-zinc-800"
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="password" className="text-[#fafaf9]">Password</Label>
+              <Label htmlFor="password" className="dark:text-zinc-100">Password</Label>
               <Input
                 id="password"
                 type="password"
@@ -75,7 +75,7 @@ export default function LoginPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Enter your password"
                 required
-                className="bg-dark-green border-gray-800 text-[#fafaf9]"
+                className="bg-white text-zinc-900 border-zinc-300 dark:bg-zinc-900 dark:text-zinc-100 dark:border-zinc-800"
               />
             </div>
 
@@ -85,11 +85,7 @@ export default function LoginPage() {
               </div>
             )}
 
-            <Button
-              type="submit"
-              className="w-full bg-[#065f46] hover:bg-[#065f46]/80 text-[#fafaf9]"
-              disabled={isLoading}
-            >
+            <Button type="submit" className="w-full bg-[var(--accent-green)] text-[var(--dark-green)] hover:bg-[var(--accent-green-hover)]" disabled={isLoading}>
               {isLoading ? 'Signing in...' : 'Sign In'}
             </Button>
           </form>

@@ -9,17 +9,17 @@ import {
   ClipboardList, ShieldCheck, Receipt, MoreVertical, 
   Trash2, ExternalLink, Edit
 } from 'lucide-react';
-import { Button } from '@/app/components/ui/button';
-import { Card } from '@/app/components/ui/card';
-import { Badge } from '@/app/components/ui/badge';
-import { Input } from '@/app/components/ui/input';
-import { Select } from '@/app/components/ui/select';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Input } from '@/components/ui/input';
+import { Select } from '@/components/ui/select';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/app/components/ui/dropdown-menu';
+} from '@/components/ui/dropdown-menu';
 
 const fileTypeIcons = {
   contract: { icon: FileCheck, color: "text-[#f59e0b]", bg: "bg-[#f59e0b]/20" },
@@ -118,14 +118,14 @@ export default function FilesPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-dark-green flex items-center justify-center">
-        <div className="text-[#fafaf9] text-xl">Loading...</div>
+      <div className="min-h-screen flex items-center justify-center bg-white text-zinc-900 dark:bg-[var(--dark-dark-green)] dark:text-zinc-100">
+        <div className="text-xl">Loading...</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-dark-green p-6">
+    <div className="min-h-screen p-6 bg-white text-zinc-900 dark:bg-[var(--dark-dark-green)] dark:text-zinc-100">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
