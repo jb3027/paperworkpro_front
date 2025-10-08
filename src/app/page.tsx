@@ -1,12 +1,7 @@
 "use client";
 
-import AuthWrapper from "@/components/auth/AuthWrapper";
-import Dashboard from "@/components/auth/Dashboard";
+import { AuthWrapper } from "@/components/AuthWrapper";
 
 export default function Home() {
-  return (
-    <AuthWrapper>
-      <Dashboard />
-    </AuthWrapper>
-  );
+  return <AuthWrapper />;
 }

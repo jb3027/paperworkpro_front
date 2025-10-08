@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { createPortal } from 'react-dom';
-import { useKindeAuth, LogoutLink } from "@kinde-oss/kinde-auth-nextjs";
+import { useKindeAuth } from '../hooks/useKindeAuth';
 import { ProductionService } from '@/lib/services';
 import { Production } from '@/lib/mockData';
 import { Moon, Sun } from "lucide-react"
@@ -60,7 +60,7 @@ function ModeToggle() {
 }
 
 export default function Dashboard() {
-  const { user } = useKindeAuth();
+  const { user, logout } = useKindeAuth();
   const [productions, setProductions] = useState<Production[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -560,12 +560,15 @@ export default function Dashboard() {
               </svg>
               Manage Account
             </Link>
-            <LogoutLink className="dropdown-item-modern logout-item-modern">
+            <button 
+              onClick={logout}
+              className="dropdown-item-modern logout-item-modern"
+            >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
               </svg>
               Logout
-            </LogoutLink>
+            </button>
           </div>
         </div>,
         document.body
