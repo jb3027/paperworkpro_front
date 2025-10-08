@@ -86,14 +86,12 @@
   --sidebar-accent-foreground: hsl(240 4.8% 95.9%);
   --sidebar-border: hsl(240 3.7% 15.9%);
   --sidebar-ring: hsl(217.2 91.2% 59.8%);
+
+  /* Login page colors */
+  --login-bg: #073229; /* Dark dark green for login */
+  --login-secondary: #0a4a3a; /* Slightly lighter teal for login */
+  --text-white: #ffffff; /* White text */
+  --text-light: #f5f5f5; /* Light text */
+  --accent-green-hover: #2bc198; /* Darker green for hover */
+  --shadow-color: rgba(0, 0, 0, 0.1); /* Subtle shadow */
 }
-
-
-
-/* Login page colors */
---login-bg: #073229; /* Dark dark green for login */
---login-secondary: #0a4a3a; /* Slightly lighter teal for login */
---text-white: #ffffff; /* White text */
---text-light: #f5f5f5; /* Light text */
---accent-green-hover: #2bc198; /* Darker green for hover */
---shadow-color: rgba(0, 0, 0, 0.1); /* Subtle shadow */
