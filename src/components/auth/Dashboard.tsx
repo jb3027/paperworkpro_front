@@ -13,6 +13,7 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import CreateProductionModal from '@/app/components/modals/createProductionModal';
+import CreatePaperworkModal from '@/components/CreatePaperworkModal';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 
 interface CreateProductionData {
@@ -65,6 +66,7 @@ export default function Dashboard() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, right: 0 });
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [isCreatePaperworkModalOpen, setIsCreatePaperworkModalOpen] = useState(false);
   const avatarButtonRef = useRef<HTMLButtonElement>(null);
   const [sortBy, setSortBy] = useState<'created' | 'start' | 'name'>('created');
   const [isSortDropdownOpen, setIsSortDropdownOpen] = useState(false);
@@ -325,13 +327,23 @@ export default function Dashboard() {
             </div>
             
             <div className="flex flex-col sm:flex-row justify-between items-center gap-6">
-              <Button 
-                onClick={() => setIsCreateModalOpen(true)}
-                className="bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-500 hover:from-emerald-700 hover:via-emerald-600 hover:to-teal-600 text-white px-8 py-4 flex items-center gap-3 transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-emerald-500/25 rounded-xl font-semibold text-base group"
-              >
-                <Plus className="w-5 h-5 group-hover:rotate-90 transition-transform duration-300" />
-                Create New Production
-              </Button>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Button 
+                  onClick={() => setIsCreateModalOpen(true)}
+                  className="bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-500 hover:from-emerald-700 hover:via-emerald-600 hover:to-teal-600 text-white px-8 py-4 flex items-center gap-3 transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-emerald-500/25 rounded-xl font-semibold text-base group"
+                >
+                  <Plus className="w-5 h-5 group-hover:rotate-90 transition-transform duration-300" />
+                  Create New Production
+                </Button>
+                
+                <Button 
+                  onClick={() => setIsCreatePaperworkModalOpen(true)}
+                  className="bg-gradient-to-r from-blue-600 via-blue-500 to-indigo-500 hover:from-blue-700 hover:via-blue-600 hover:to-indigo-600 text-white px-8 py-4 flex items-center gap-3 transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-blue-500/25 rounded-xl font-semibold text-base group"
+                >
+                  <Plus className="w-5 h-5 group-hover:rotate-90 transition-transform duration-300" />
+                  Create Paperwork
+                </Button>
+              </div>
               
               <DropdownMenu open={isSortDropdownOpen} onOpenChange={setIsSortDropdownOpen}>
                 <DropdownMenuTrigger asChild>
@@ -563,6 +575,16 @@ export default function Dashboard() {
         <CreateProductionModal
           onClose={handleCloseModal}
           onSubmit={handleCreateProduction}
+        />
+      )}
+
+      {isCreatePaperworkModalOpen && (
+        <CreatePaperworkModal
+          onClose={() => setIsCreatePaperworkModalOpen(false)}
+          onSuccess={(paperwork) => {
+            console.log('Paperwork created successfully:', paperwork);
+            // You can add additional success handling here
+          }}
         />
       )}
     </div>
