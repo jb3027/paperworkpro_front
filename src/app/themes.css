@@ -38,6 +38,16 @@
   --sidebar-accent-foreground: hsl(240 5.9% 10%);
   --sidebar-border: hsl(220 13% 91%);
   --sidebar-ring: hsl(217.2 91.2% 59.8%);
+
+  /* Authentication variables */
+  --login-bg: #073229;
+  --login-secondary: #0a4a3a;
+  --text-white: #f5f5f5;
+  --text-light: #e2e8f0;
+  --accent-green-hover: #2bc198;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --primary-bg: #f5f5f5;
+  --border-color: #cccccc;
 }
 
 .dark {
