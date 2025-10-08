@@ -1,94 +1,32 @@
-// Step 18: Create Login Component
+// Modern Login Component using Kinde Next.js SDK
 import React from 'react';
-import { useKindeAuth } from './hooks/useKindeAuth';
+import { LoginLink, RegisterLink } from '@kinde-oss/kinde-auth-nextjs/components';
 
 export const LoginForm: React.FC = () => {
-    const { login, register, loading, error, clearError } = useKindeAuth();
-
-    if (loading) {
-        return (
-            <div style={{ 
-                display: 'flex', 
-                justifyContent: 'center', 
-                alignItems: 'center', 
-                height: '200px' 
-            }}>
-                <div>Loading...</div>
-            </div>
-        );
-    }
-
     return (
-        <div style={{ 
-            display: 'flex', 
-            flexDirection: 'column', 
-            alignItems: 'center', 
-            gap: '20px',
-            padding: '40px',
-            backgroundColor: '#f8f8f8',
-            borderRadius: '8px',
-            maxWidth: '400px',
-            margin: '0 auto'
-        }}>
-            <h2>Welcome to PaperworkPro</h2>
-            
-            {error && (
-                <div style={{ 
-                    color: 'red', 
-                    backgroundColor: '#ffe6e6', 
-                    padding: '10px', 
-                    borderRadius: '4px',
-                    width: '100%',
-                    textAlign: 'center'
-                }}>
-                    Error: {error}
-                    <button 
-                        onClick={clearError}
-                        style={{ 
-                            marginLeft: '10px', 
-                            background: 'none', 
-                            border: 'none', 
-                            color: 'red',
-                            cursor: 'pointer'
-                        }}
-                    >
-                        ×
-                    </button>
+        <div id="logged_out_view" className="auth-container">
+            <div className="auth-card">
+                <div className="app-icon">
+                    <i className="fas fa-film"></i>
                 </div>
-            )}
-            
-            <div style={{ display: 'flex', gap: '10px', width: '100%' }}>
-                <button 
-                    onClick={login}
-                    style={{
-                        flex: 1,
-                        padding: '12px 24px',
-                        backgroundColor: '#007bff',
-                        color: 'white',
-                        border: 'none',
-                        borderRadius: '4px',
-                        cursor: 'pointer',
-                        fontSize: '16px'
-                    }}
-                >
-                    Login
-                </button>
+                <h1 className="app-title">PaperworkPro</h1>
+                <p className="app-subtitle">Professional script management</p>
                 
-                <button 
-                    onClick={register}
-                    style={{
-                        flex: 1,
-                        padding: '12px 24px',
-                        backgroundColor: '#28a745',
-                        color: 'white',
-                        border: 'none',
-                        borderRadius: '4px',
-                        cursor: 'pointer',
-                        fontSize: '16px'
-                    }}
-                >
-                    Register
-                </button>
+                <div className="auth-buttons">
+                    <LoginLink className="btn-primary">
+                        <i className="fas fa-user"></i>
+                        Sign In
+                    </LoginLink>
+                    <RegisterLink className="btn-secondary">
+                        <i className="fas fa-user-plus"></i>
+                        Create Account
+                    </RegisterLink>
+                </div>
+                
+                <div className="security-note">
+                    <i className="fas fa-shield-alt"></i>
+                    <span>Secured with end-to-end encryption</span>
+                </div>
             </div>
         </div>
     );

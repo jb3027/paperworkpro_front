@@ -1,11 +1,10 @@
 "use client";
 
 import React from "react";
-import Script from "next/script";
 import "./globals.css";
 import "./themes.css";
 import { ThemeProvider } from "@/components/theme-provider";
-import { KindeAuthProvider } from "@/components/KindeAuthContext";
+import { KindeProvider } from "@kinde-oss/kinde-auth-nextjs";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -23,7 +22,12 @@ export default function Layout({ children, currentPageName }: LayoutProps) {
         />
       </head>
       <body className="min-h-screen bg-white dark:bg-[var(--dark-dark-green)]">
-        <KindeAuthProvider>
+        <KindeProvider
+          clientId={process.env.NEXT_PUBLIC_KINDE_CLIENT_ID || "059f84ab1651486382d0b77e79fb01d3"}
+          domain={process.env.NEXT_PUBLIC_KINDE_DOMAIN || "https://gaialith.kinde.com"}
+          redirectUri={process.env.NEXT_PUBLIC_KINDE_REDIRECT_URI || "http://localhost:3000"}
+          postLogoutRedirectUri={process.env.NEXT_PUBLIC_KINDE_POST_LOGOUT_REDIRECT_URL || "http://localhost:3000"}
+        >
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
@@ -34,13 +38,7 @@ export default function Layout({ children, currentPageName }: LayoutProps) {
               {children}
             </main>
           </ThemeProvider>
-        </KindeAuthProvider>
-        
-        {/* Kinde SDK */}
-        <Script 
-          src="https://kinde.com/sdk/v2/js/kinde-auth.umd.js"
-          strategy="beforeInteractive"
-        />
+        </KindeProvider>
       </body>
     </html>
   );
